@@ -1,0 +1,54 @@
+{
+  "name": "backend-buying-frenzy",
+  "version": "1.0.0",
+  "description": "Backend buying frenzy",
+  "main": "src/index.js",
+  "repository": "https://github.com/huggingbot/backend-buying-frenzy.git",
+  "author": "huggingbot <83656073+huggingbot@users.noreply.github.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "scripts": {
+    "start": "nodemon",
+    "clean": "rimraf dist coverage *.tsbuildinfo",
+    "prebuild": "npm run lint",
+    "build": "tsc -p tsconfig.build.json",
+    "serve": "node  -r ./bootstrap.js dist/index.js",
+    "lint": "tsc && eslint src --ignore-path .eslintignore --ext ts,js --max-warnings=0",
+    "test": "jest --coverage",
+    "prettier": "prettier --config .prettierrc --write .",
+    "test:watch": "jest --watch",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "@types/jest": "~27.5",
+    "@types/node": "~16",
+    "@typescript-eslint/eslint-plugin": "~5.26",
+    "@typescript-eslint/parser": "~5.26",
+    "eslint": "~8.16",
+    "eslint-config-prettier": "~8.5",
+    "eslint-plugin-jest": "~26.2",
+    "husky": "^8.0.1",
+    "jest": "~28.1",
+    "kill-port": "^2.0.1",
+    "lint-staged": "^13.0.3",
+    "nodemon": "^2.0.20",
+    "prettier": "~2.6",
+    "rimraf": "~3.0",
+    "ts-jest": "~28.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.0",
+    "tsutils": "~3.21",
+    "typescript": "~4.7"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "helmet": "^6.0.0",
+    "joi": "^17.6.1",
+    "winston": "^3.8.2"
+  }
+}
