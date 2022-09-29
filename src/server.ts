@@ -1,11 +1,12 @@
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import { genericErrorMw, apiNotFoundMw } from '~/middlewares/error.middleware'
+import { apiNotFoundMw, genericErrorMw } from '~/middlewares/error.middleware'
 import { appConfig } from './core/app.config'
 import logger from './core/logging'
 import { apiMwRouter, securityMwRouter } from './middlewares'
 import debugRouter from './routers/debug.routes'
+import deliveryRoutes from './routers/delivery.routes'
 
 export const startServer = async (): Promise<void> => {
   const app = express()
@@ -16,6 +17,8 @@ export const startServer = async (): Promise<void> => {
   app.use(securityMwRouter)
   app.use('/api', apiMwRouter)
   app.use('/api/debug', debugRouter)
+
+  app.use('/', deliveryRoutes)
 
   app.all('/api/*', apiNotFoundMw)
   app.use(genericErrorMw)

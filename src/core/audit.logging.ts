@@ -86,3 +86,7 @@ export default class auditLogger {
     return { txInfo, metadata }
   }
 }
+
+export enum ETransactional {
+  Test = 'Test',
+}
