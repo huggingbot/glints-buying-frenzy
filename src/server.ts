@@ -1,7 +1,7 @@
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import { generalErrorHandler, sendApiNotFoundResponse } from '~/core/generic.error'
+import { generalErrorHandler, sendApiNotFoundResponse } from '~/middlewares/error.middleware'
 import { appConfig } from './core/app.config'
 import logger from './core/logging'
 import { apiMwRouter, securityMwRouter } from './middlewares'

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import HttpStatus from 'http-status-codes'
-import logger from './logging'
+import logger from '../core/logging'
 
 interface ICustomError {
   code: number
