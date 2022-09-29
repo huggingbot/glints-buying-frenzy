@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
-import { ITxContext } from '~/modules/common/types'
+import { ITxContext } from './types'
 import { getCurrentSGDate } from '~/utils/dateUtil'
 import { retrieveIpAddress } from '~/utils/ipUtil'
 import logger from './logging'

@@ -1,4 +1,4 @@
-import { ITxContext } from '~/modules/common/types'
+import { ITxContext } from '~/core/types'
 
 /**
  * Extension of express request typing

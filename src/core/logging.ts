@@ -1,4 +1,6 @@
+import { Request } from 'express'
 import winston, { createLogger, format } from 'winston'
+import { ILogContext } from './types'
 
 const logger = createLogger({
   format: format.combine(
@@ -14,5 +16,18 @@ const logger = createLogger({
     }),
   ],
 })
+
+export const generateLogContext = (req: Request, txType: string, err?: Error): ILogContext => {
+  return {
+    txContext: req.txContext,
+    txType,
+    metadata: {
+      requestBody: req.body,
+      requestParams: req.params,
+      requestQuery: req.query,
+    },
+    error: err,
+  }
+}
 
 export default logger
