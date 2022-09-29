@@ -13,7 +13,7 @@ const errorBuilder = (code: number, message: string): ICustomError => {
   return { code, message }
 }
 
-export const sendApiNotFoundResponse = (req: Request, res: Response): void => {
+export const apiNotFoundMw = (req: Request, res: Response): void => {
   const msg = 'Not Found'
   res.status(HttpStatus.NOT_FOUND)
   res.json(errorBuilder(HttpStatus.NOT_FOUND, msg))
@@ -21,7 +21,7 @@ export const sendApiNotFoundResponse = (req: Request, res: Response): void => {
   logger.error(`${HttpStatus.NOT_FOUND}`, 'No matching API', msg, metadata)
 }
 
-export const generalErrorHandler = (error: Error, req: Request, res: Response, next: NextFunction): void => {
+export const genericErrorMw = (error: Error, req: Request, res: Response, next: NextFunction): void => {
   if (error) {
     const msg = 'There are issue(s) with the request, please rectify and try again.'
     res.status(HttpStatus.BAD_REQUEST)
