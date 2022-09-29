@@ -1,5 +1,5 @@
 import express from 'express'
-import auditLogger from '~/core/auditLogging'
+import auditLogger from '~/core/audit.logging'
 
 const apiMwRouter = express.Router()
 
