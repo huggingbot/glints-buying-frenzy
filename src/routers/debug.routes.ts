@@ -1,7 +1,7 @@
 import express from 'express'
-import { appConfig } from '~/core/app.config'
-import { getCurrentSGTime } from '~/utils/dateUtil'
 import HttpStatus from 'http-status-codes'
+import { appConfig } from '~/core/app.config'
+import { getCurrentSGTime } from '~/utils/date.util'
 
 const debugRouter = express.Router()
 

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
-import { ITxContext } from './types'
-import { getCurrentSGDate } from '~/utils/dateUtil'
-import { retrieveIpAddress } from '~/utils/ipUtil'
+import { getCurrentSGDate } from '~/utils/date.util'
+import { retrieveIpAddress } from '~/utils/ip.util'
 import logger from './logging'
+import { ITxContext } from './types'
 
 interface ITxInfo {
   txId: string
