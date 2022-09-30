@@ -15,7 +15,7 @@
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.build.json",
     "serve": "node  -r ./bootstrap.js dist/index.js",
-    "lint": "tsc && eslint src --ignore-path .eslintignore --ext ts,js --max-warnings=0",
+    "lint": "tsc && eslint 'src/' --ignore-path .eslintignore --ext ts,js --max-warnings=0",
     "test": "jest --coverage",
     "prettier": "prettier --config .prettierrc --write .",
     "test:watch": "jest --watch",
