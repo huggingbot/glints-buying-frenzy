@@ -2,7 +2,6 @@
   "name": "backend-buying-frenzy",
   "version": "1.0.0",
   "description": "Backend buying frenzy",
-  "main": "src/index.js",
   "repository": "https://github.com/huggingbot/backend-buying-frenzy.git",
   "author": "huggingbot <83656073+huggingbot@users.noreply.github.com>",
   "license": "MIT",
@@ -11,15 +10,14 @@
   },
   "scripts": {
     "start": "nodemon",
-    "clean": "rimraf dist coverage *.tsbuildinfo",
     "prebuild": "npm run lint",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "rimraf dist coverage *.tsbuildinfo && tsc -p tsconfig.build.json",
     "serve": "node  -r ./bootstrap.js dist/index.js",
     "lint": "tsc && eslint 'src/' --ignore-path .eslintignore --ext ts,js --max-warnings=0",
     "test": "jest --coverage",
-    "prettier": "prettier --config .prettierrc --write .",
     "test:watch": "jest --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "etl": "ts-node ./src/db_scripts/etl/index.ts"
   },
   "devDependencies": {
     "@types/compression": "^1.7.2",
