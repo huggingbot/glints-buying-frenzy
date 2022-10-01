@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { IMenu, IRestaurant, IRestaurantMenu } from '../restaurant.types'
 import { IPurchaseHistory, IUser, IUserRaw } from '../user.types'
 
@@ -34,7 +35,7 @@ export const transformPurchaseHistory = (
             restaurantMenuId: restaurantMenuItem[0].restaurantMenuId,
             userId: Number(userId),
             transactionAmount,
-            transactionDate,
+            transactionDate: moment(transactionDate).format('YYYY-MM-DD HH:mm:ss'),
           }
           purchaseHistoryId += 1
         }
