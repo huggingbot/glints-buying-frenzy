@@ -349,6 +349,8 @@ const handleAttrType = (seqType: DataType): string => {
       return `STRING${len ? `(${len})` : ''}`
     case 'INTEGER':
       return `INTEGER${unsigned === true ? '.UNSIGNED' : ''}${len ? `(${len})` : ''}`
+    case 'FLOAT':
+      return `FLOAT${unsigned === true ? '.UNSIGNED' : ''}${len ? `(${len})` : ''}`
     case 'BOOLEAN':
       return 'BOOLEAN'
     case 'DATE':
@@ -380,7 +382,7 @@ const sequelizeToTsType = (seqType: DataType, values?: string[], allowNull = tru
     if (type.includes('CHAR') || type.includes('TEXT') || type.includes('STRING')) {
       return 'string'
     }
-    if (type.includes('INTEGER') || type.includes('BIGINT')) {
+    if (type.includes('INTEGER') || type.includes('BIGINT') || type.includes('FLOAT')) {
       return 'number'
     }
     if (type.includes('BOOLEAN')) {
