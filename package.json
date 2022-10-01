@@ -21,10 +21,10 @@
     "db:etl": "ts-node ./src/db_scripts/etl/index.ts",
     "db:gen-models": "ts-node ./src/db_scripts/model_definitions/gen_models.ts",
     "db:gen-migrations": "tsc -p tsconfig.migration.json",
-    "db:drop": "npx sequelize-cli db:drop",
-    "db:create": "npx sequelize-cli db:create",
-    "db:migrate": "npx sequelize-cli db:migrate --debug",
-    "db:seed": "npx sequelize-cli db:seed:all --debug",
+    "db:drop": "npx sequelize db:drop",
+    "db:create": "npx sequelize db:create",
+    "db:migrate": "npx sequelize db:migrate --debug",
+    "db:seed": "npx sequelize db:seed:all --debug",
     "db:reset": "yarn db:etl && yarn db:gen-models && yarn db:gen-migrations && yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed"
   },
   "devDependencies": {
@@ -67,6 +67,7 @@
     "moment-timezone": "^0.5.37",
     "mysql2": "^2.3.3",
     "sequelize": "^6.23.2",
+    "sequelize-cli": "^6.5.1",
     "uuid": "^9.0.0",
     "winston": "^3.8.2"
   }
