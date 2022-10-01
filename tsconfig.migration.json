@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "module": "commonjs",
+    "lib": ["ES2015", "ESNext.AsyncIterable"],
+    "outDir": "./src/db_scripts/migrations",
+    "downlevelIteration": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "typeRoots": ["node_modules/@types"],
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["./src/db_scripts/migrations_ts"],
+  "exclude": ["node_modules"]
+}

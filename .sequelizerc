@@ -1,0 +1,7 @@
+const { join } = require('path')
+
+module.exports = {
+  config: join('src', 'db_scripts', 'config.js'),
+  'seeders-path': join('src', 'db_scripts', 'seeders'),
+  'migrations-path': join('src', 'db_scripts', 'migrations'),
+}
