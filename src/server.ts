@@ -5,6 +5,7 @@ import { apiNotFoundMw, genericErrorMw } from '~/middlewares/error.middleware'
 import { appConfig } from './core/app.config'
 import logger from './core/logging'
 import { apiMwRouter, securityMwRouter } from './middlewares'
+import { modelsInit } from './models'
 import debugRouter from './routers/debug.routes'
 import deliveryRoutes from './routers/delivery.routes'
 
@@ -22,6 +23,8 @@ export const startServer = async (): Promise<void> => {
 
   app.all('/api/*', apiNotFoundMw)
   app.use(genericErrorMw)
+
+  modelsInit()
 
   app.listen(appConfig.expressConfig.port)
   logger.info(`Node Version: ${process.version}`)
