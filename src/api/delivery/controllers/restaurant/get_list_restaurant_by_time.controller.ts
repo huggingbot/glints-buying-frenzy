@@ -11,7 +11,7 @@ interface IRestaurantQuery {
   timeAsMinutes?: number
 }
 
-export class GetListRestaurantController extends CustomController<IRestaurant[]> {
+export class GetListRestaurantByTimeController extends CustomController<IRestaurant[]> {
   private restaurantTimeService: RestaurantTimeService
 
   public constructor(req: Request, res: Response) {
@@ -24,7 +24,7 @@ export class GetListRestaurantController extends CustomController<IRestaurant[]>
       const { dayOfWeek, timeAsMinutes } = req.query
 
       if (!dayOfWeek || !timeAsMinutes) {
-        throw new CustomError('Required query strings of "dayOfWeek" and "timeAsMinutes" not found')
+        throw new CustomError('Required query strings not found')
       }
       const result = await this.restaurantTimeService.getRestaurantsByTime(dayOfWeek, timeAsMinutes)
 
