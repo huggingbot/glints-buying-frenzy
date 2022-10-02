@@ -16,8 +16,8 @@ export interface IRestaurant {
   cashBalance: number
 }
 
-export interface IRestaurantHour {
-  restaurantHourId: number
+export interface IRestaurantTime {
+  restaurantTimeId: number
   restaurantId: number
   dayOfWeek: number
   openingHour: number

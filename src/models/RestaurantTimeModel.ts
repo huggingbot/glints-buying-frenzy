@@ -3,14 +3,14 @@ import { DataTypes, Model, BuildOptions, fn } from 'sequelize'
 import { Optional } from '~/core/types'
 import { database, StaticModel } from '~/db_scripts'
 import { IRestaurantModelAttrs, restaurantModelStatic, RestaurantModelCreationAttrs } from './RestaurantModel'
-const modelName = 'RestaurantHourModel'
-const tableName = 'restaurant_hour'
-export type RestaurantHourModelCreationAttrs = Omit<
-  Optional<IRestaurantHourModelAttrs, 'createdAt' | 'updatedAt'>,
+const modelName = 'RestaurantTimeModel'
+const tableName = 'restaurant_time'
+export type RestaurantTimeModelCreationAttrs = Omit<
+  Optional<IRestaurantTimeModelAttrs, 'createdAt' | 'updatedAt'>,
   'restaurantIdRestaurantModel'
 > & { restaurantIdRestaurantModel?: RestaurantModelCreationAttrs }
-export interface IRestaurantHourModelAttrs {
-  readonly restaurantHourId: number
+export interface IRestaurantTimeModelAttrs {
+  readonly restaurantTimeId: number
   restaurantId: number
   dayOfWeek: number
   openingHour: number
@@ -19,12 +19,12 @@ export interface IRestaurantHourModelAttrs {
   updatedAt: Date
   restaurantIdRestaurantModel?: IRestaurantModelAttrs
 }
-export interface IRestaurantHourModel extends Model, Partial<IRestaurantHourModelAttrs> {}
-export const restaurantHourModelStatic = database.define(
+export interface IRestaurantTimeModel extends Model, Partial<IRestaurantTimeModelAttrs> {}
+export const restaurantTimeModelStatic = database.define(
   modelName,
   {
-    restaurantHourId: {
-      field: 'restaurantHourId',
+    restaurantTimeId: {
+      field: 'restaurantTimeId',
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true,
@@ -65,9 +65,9 @@ export const restaurantHourModelStatic = database.define(
     },
   },
   { tableName },
-) as RestaurantHourModelStatic
-type RestaurantHourModelAttrs = {
-  restaurantHourId: 'restaurantHourId'
+) as RestaurantTimeModelStatic
+type RestaurantTimeModelAttrs = {
+  restaurantTimeId: 'restaurantTimeId'
   restaurantId: 'restaurantId'
   dayOfWeek: 'dayOfWeek'
   openingHour: 'openingHour'
@@ -75,13 +75,13 @@ type RestaurantHourModelAttrs = {
   createdAt: 'createdAt'
   updatedAt: 'updatedAt'
 }
-type RestaurantHourModelAssoc = { restaurantIdRestaurantModel: () => typeof restaurantModelStatic }
-type RestaurantHourModelAlias = { restaurantIdRestaurantModel: 'restaurantIdRestaurantModel' }
-restaurantHourModelStatic.assoc = {
+type RestaurantTimeModelAssoc = { restaurantIdRestaurantModel: () => typeof restaurantModelStatic }
+type RestaurantTimeModelAlias = { restaurantIdRestaurantModel: 'restaurantIdRestaurantModel' }
+restaurantTimeModelStatic.assoc = {
   restaurantIdRestaurantModel: (): typeof restaurantModelStatic => restaurantModelStatic,
 }
-restaurantHourModelStatic.attrs = {
-  restaurantHourId: 'restaurantHourId',
+restaurantTimeModelStatic.attrs = {
+  restaurantTimeId: 'restaurantTimeId',
   restaurantId: 'restaurantId',
   dayOfWeek: 'dayOfWeek',
   openingHour: 'openingHour',
@@ -89,15 +89,15 @@ restaurantHourModelStatic.attrs = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 }
-restaurantHourModelStatic.alias = { restaurantIdRestaurantModel: 'restaurantIdRestaurantModel' }
-export type RestaurantHourModelStatic = StaticModel & {
-  new (values?: object, options?: BuildOptions): IRestaurantHourModel
-  attrs: RestaurantHourModelAttrs
-  assoc: RestaurantHourModelAssoc
-  alias: RestaurantHourModelAlias
+restaurantTimeModelStatic.alias = { restaurantIdRestaurantModel: 'restaurantIdRestaurantModel' }
+export type RestaurantTimeModelStatic = StaticModel & {
+  new (values?: object, options?: BuildOptions): IRestaurantTimeModel
+  attrs: RestaurantTimeModelAttrs
+  assoc: RestaurantTimeModelAssoc
+  alias: RestaurantTimeModelAlias
 }
-export const restaurantHourModelInit = (): void => {
-  restaurantHourModelStatic.belongsTo(restaurantModelStatic, {
+export const restaurantTimeModelInit = (): void => {
+  restaurantTimeModelStatic.belongsTo(restaurantModelStatic, {
     foreignKey: 'restaurantId',
     as: 'restaurantIdRestaurantModel',
   })

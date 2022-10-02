@@ -34,7 +34,7 @@ export const definition: ICreatorDefinition = {
   associations: [
     {
       assocType: AssocType.HasMany,
-      assocModelName: 'RestaurantHour',
+      assocModelName: 'RestaurantTime',
       foreignKey: 'restaurantId',
     },
     {

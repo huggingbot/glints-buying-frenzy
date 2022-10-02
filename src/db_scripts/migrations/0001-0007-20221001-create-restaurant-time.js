@@ -37,12 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var sequelize_1 = require("sequelize");
-var TABLE_NAME = 'restaurant_hour';
+var TABLE_NAME = 'restaurant_time';
 module.exports = {
     up: function (queryInterface) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             return [2 /*return*/, queryInterface.createTable(TABLE_NAME, {
-                    restaurantHourId: {
+                    restaurantTimeId: {
                         type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
                         primaryKey: true,
                         autoIncrement: true,

@@ -1,7 +1,7 @@
 import { QueryInterface } from 'sequelize'
 
-const INDEX_NAME = 'restaurant_hour_dayOfWeek_openingHour_closingHour'
-const TABLE_NAME = 'restaurant_hour'
+const INDEX_NAME = 'restaurant_time_dayOfWeek_openingHour_closingHour'
+const TABLE_NAME = 'restaurant_time'
 
 export = {
   up: async (queryInterface: QueryInterface): Promise<void> => {

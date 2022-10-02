@@ -6,7 +6,7 @@ import { IMenu, IRestaurant, IRestaurantMenu, IRestaurantRaw } from './restauran
 import { IUserRaw } from './user.types'
 import {
   transformMenu,
-  transformRestaurantHours,
+  transformRestaurantTime,
   transformRestaurantMenu,
   transformRestaurants,
 } from './utils/restaurant.util'
@@ -28,13 +28,13 @@ const parseRestaurants = (data: Record<string, IRestaurantRaw>): ReturnType<type
   return transformed
 }
 
-const parseRestaurantHours = (data: Record<string, IRestaurantRaw>): ReturnType<typeof transformRestaurantHours> => {
-  console.log('Extracting and transforming restaurant hours')
-  const transformed = transformRestaurantHours(data)
+const parseRestaurantTime = (data: Record<string, IRestaurantRaw>): ReturnType<typeof transformRestaurantTime> => {
+  console.log('Extracting and transforming restaurant time')
+  const transformed = transformRestaurantTime(data)
   const arr = Object.values(transformed).map((i) => i)
   const json = JSON.stringify(arr, null, 2)
-  fs.writeFileSync(join(OUTPUT_PATH, 'restaurant_hour.json'), json, 'utf-8')
-  console.log('Completed restaurant hours')
+  fs.writeFileSync(join(OUTPUT_PATH, 'restaurant_time.json'), json, 'utf-8')
+  console.log('Completed restaurant time')
   return transformed
 }
 
@@ -94,7 +94,7 @@ const main = async (): Promise<void> => {
   const userDataObj = appendId(userData)
 
   const restaurants = parseRestaurants(restaurantDataObj)
-  parseRestaurantHours(restaurantDataObj)
+  parseRestaurantTime(restaurantDataObj)
   const menus = parseMenus(restaurantData)
   const restaurantMenus = parseRestaurantMenus(restaurantDataObj, menus)
   parseUsers(userDataObj)

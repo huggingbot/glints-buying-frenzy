@@ -3,10 +3,10 @@ import { DataTypes, Model, BuildOptions, fn } from 'sequelize'
 import { Optional } from '~/core/types'
 import { database, StaticModel } from '~/db_scripts'
 import {
-  IRestaurantHourModelAttrs,
-  restaurantHourModelStatic,
-  RestaurantHourModelCreationAttrs,
-} from './RestaurantHourModel'
+  IRestaurantTimeModelAttrs,
+  restaurantTimeModelStatic,
+  RestaurantTimeModelCreationAttrs,
+} from './RestaurantTimeModel'
 import {
   IRestaurantMenuModelAttrs,
   restaurantMenuModelStatic,
@@ -17,9 +17,9 @@ const modelName = 'RestaurantModel'
 const tableName = 'restaurant'
 export type RestaurantModelCreationAttrs = Omit<
   Optional<IRestaurantModelAttrs, 'createdAt' | 'updatedAt'>,
-  'restaurantIdRestaurantHourModels' | 'restaurantIdRestaurantMenuModels' | 'restaurantIdMenuModels'
+  'restaurantIdRestaurantTimeModels' | 'restaurantIdRestaurantMenuModels' | 'restaurantIdMenuModels'
 > & {
-  restaurantIdRestaurantHourModels?: RestaurantHourModelCreationAttrs[]
+  restaurantIdRestaurantTimeModels?: RestaurantTimeModelCreationAttrs[]
   restaurantIdRestaurantMenuModels?: RestaurantMenuModelCreationAttrs[]
   restaurantIdMenuModels?: MenuModelCreationAttrs[]
 }
@@ -29,7 +29,7 @@ export interface IRestaurantModelAttrs {
   cashBalance: number
   createdAt: Date
   updatedAt: Date
-  restaurantIdRestaurantHourModels?: IRestaurantHourModelAttrs[]
+  restaurantIdRestaurantTimeModels?: IRestaurantTimeModelAttrs[]
   restaurantIdRestaurantMenuModels?: IRestaurantMenuModelAttrs[]
   restaurantIdMenuModels?: IMenuModelAttrs[]
 }
@@ -77,17 +77,17 @@ type RestaurantModelAttrs = {
   updatedAt: 'updatedAt'
 }
 type RestaurantModelAssoc = {
-  restaurantIdRestaurantHourModels: () => typeof restaurantHourModelStatic
+  restaurantIdRestaurantTimeModels: () => typeof restaurantTimeModelStatic
   restaurantIdRestaurantMenuModels: () => typeof restaurantMenuModelStatic
   restaurantIdMenuModels: () => typeof menuModelStatic
 }
 type RestaurantModelAlias = {
-  restaurantIdRestaurantHourModels: 'restaurantIdRestaurantHourModels'
+  restaurantIdRestaurantTimeModels: 'restaurantIdRestaurantTimeModels'
   restaurantIdRestaurantMenuModels: 'restaurantIdRestaurantMenuModels'
   restaurantIdMenuModels: 'restaurantIdMenuModels'
 }
 restaurantModelStatic.assoc = {
-  restaurantIdRestaurantHourModels: (): typeof restaurantHourModelStatic => restaurantHourModelStatic,
+  restaurantIdRestaurantTimeModels: (): typeof restaurantTimeModelStatic => restaurantTimeModelStatic,
   restaurantIdRestaurantMenuModels: (): typeof restaurantMenuModelStatic => restaurantMenuModelStatic,
   restaurantIdMenuModels: (): typeof menuModelStatic => menuModelStatic,
 }
@@ -99,7 +99,7 @@ restaurantModelStatic.attrs = {
   updatedAt: 'updatedAt',
 }
 restaurantModelStatic.alias = {
-  restaurantIdRestaurantHourModels: 'restaurantIdRestaurantHourModels',
+  restaurantIdRestaurantTimeModels: 'restaurantIdRestaurantTimeModels',
   restaurantIdRestaurantMenuModels: 'restaurantIdRestaurantMenuModels',
   restaurantIdMenuModels: 'restaurantIdMenuModels',
 }
@@ -110,9 +110,9 @@ export type RestaurantModelStatic = StaticModel & {
   alias: RestaurantModelAlias
 }
 export const restaurantModelInit = (): void => {
-  restaurantModelStatic.hasMany(restaurantHourModelStatic, {
+  restaurantModelStatic.hasMany(restaurantTimeModelStatic, {
     foreignKey: 'restaurantId',
-    as: 'restaurantIdRestaurantHourModels',
+    as: 'restaurantIdRestaurantTimeModels',
   })
   restaurantModelStatic.hasMany(restaurantMenuModelStatic, {
     foreignKey: 'restaurantId',

@@ -1,11 +1,11 @@
 import { QueryInterface, fn, DataTypes } from 'sequelize'
 
-const TABLE_NAME = 'restaurant_hour'
+const TABLE_NAME = 'restaurant_time'
 
 module.exports = {
   up: async (queryInterface: QueryInterface): Promise<void> => {
     return queryInterface.createTable(TABLE_NAME, {
-      restaurantHourId: {
+      restaurantTimeId: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         autoIncrement: true,

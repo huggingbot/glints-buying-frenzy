@@ -2,10 +2,10 @@ import { DataTypes, fn } from 'sequelize'
 import { AssocType, ICreatorDefinition } from '../types'
 
 export const definition: ICreatorDefinition = {
-  tableName: 'restaurant_hour',
-  modelName: 'RestaurantHour',
+  tableName: 'restaurant_time',
+  modelName: 'RestaurantTime',
   attributes: {
-    restaurantHourId: {
+    restaurantTimeId: {
       type: DataTypes.INTEGER.UNSIGNED,
       primaryKey: true,
       autoIncrement: true,
@@ -47,7 +47,7 @@ export const definition: ICreatorDefinition = {
       attributes: ['dayOfWeek', 'openingHour', 'closingHour'],
       options: {
         unique: false,
-        name: 'restaurant_hour_dayOfWeek_openingHour_closingHour',
+        name: 'restaurant_time_dayOfWeek_openingHour_closingHour',
       },
     },
   ],
