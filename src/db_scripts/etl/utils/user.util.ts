@@ -35,7 +35,7 @@ export const transformPurchaseHistory = (
             restaurantMenuId: restaurantMenuItem[0].restaurantMenuId,
             userId: Number(userId),
             transactionAmount,
-            transactionDate: moment(transactionDate).format('YYYY-MM-DD HH:mm:ss'),
+            transactionDate: moment(new Date(transactionDate)).format('YYYY-MM-DD HH:mm:ss'),
           }
           purchaseHistoryId += 1
         }
