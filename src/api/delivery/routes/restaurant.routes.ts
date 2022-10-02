@@ -1,9 +1,9 @@
 import express from 'express'
-import { RestaurantController } from '../controllers/profile/restaurant.controller'
+import { GetListRestaurantController } from '../controllers/restaurant/get_list_restaurant.controller'
 
 export const restaurantRouter = express.Router()
-const baseRoute = '/restaurant'
+const baseRoute = '/restaurants'
 
-restaurantRouter.get(`${baseRoute}/1`, (req, res) => {
-  void new RestaurantController(req, res).handleRequest()
+restaurantRouter.get(`${baseRoute}`, (req, res) => {
+  void new GetListRestaurantController(req, res).handleRequest()
 })

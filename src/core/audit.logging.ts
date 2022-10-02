@@ -38,7 +38,7 @@ export default class auditLogger {
   static logTransactionSuccess(
     txContext: ITxContext,
     txType: string,
-    metadataInput = {}
+    metadataInput = {},
   ): { txInfo: ITxInfo; metadata: Record<string, unknown> } {
     const { uuid, startTime, sourceIp } = txContext
 
@@ -61,7 +61,7 @@ export default class auditLogger {
     txContext: ITxContext,
     txType: string,
     error: unknown,
-    metadataInput = {}
+    metadataInput = {},
   ): { txInfo: ITxInfo; metadata: Record<string, unknown> } {
     const { uuid, startTime, sourceIp } = txContext
 
@@ -88,5 +88,5 @@ export default class auditLogger {
 }
 
 export enum ETransactional {
-  Test = 'Test',
+  GetListRestaurant = 'GetListRestaurant',
 }

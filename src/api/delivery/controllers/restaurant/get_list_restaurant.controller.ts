@@ -3,32 +3,32 @@ import { ETransactional } from '~/core/audit.logging'
 import { CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
 import { IApiResult } from '~/core/types'
-import { RestaurantService } from '~/modules/restaurant/restaurant.service'
+import { IRestaurant } from '~/modules/restaurant/restaurant.types'
+import { RestaurantTimeService } from '~/modules/restaurant/restaurant_time.service'
 
 interface IRestaurantQuery {
   dayOfWeek?: number
   timeAsMinutes?: number
 }
 
-export class RestaurantController extends CustomController<unknown> {
-  private restaurantService: RestaurantService
+export class GetListRestaurantController extends CustomController<IRestaurant[]> {
+  private restaurantTimeService: RestaurantTimeService
 
   public constructor(req: Request, res: Response) {
     super(req, res)
-    this.restaurantService = new RestaurantService(this.logContext)
+    this.restaurantTimeService = new RestaurantTimeService(this.logContext)
   }
 
   protected async doRequest(req: Request<unknown, unknown, unknown, IRestaurantQuery>): Promise<IApiResult> {
     try {
       const { dayOfWeek, timeAsMinutes } = req.query
 
-      if (!dayOfWeek && !timeAsMinutes) {
+      if (!dayOfWeek || !timeAsMinutes) {
         throw new CustomError('Required query strings of "dayOfWeek" and "timeAsMinutes" not found')
       }
-      // TODO: Add services
-      // this.restaurantService
+      const result = await this.restaurantTimeService.getRestaurantsByTime(dayOfWeek, timeAsMinutes)
 
-      return this.success({ test: req.txContext.uuid }, 'testing')
+      return this.success(result as IRestaurant[], 'Successfully got restaurants')
     } catch (err) {
       if (err instanceof CustomError) {
         return this.badRequest(err)
@@ -38,6 +38,6 @@ export class RestaurantController extends CustomController<unknown> {
   }
 
   protected getTxType(): string {
-    return ETransactional.Test
+    return ETransactional.GetListRestaurant
   }
 }
