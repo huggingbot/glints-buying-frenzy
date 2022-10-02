@@ -31,7 +31,6 @@ export interface IApiResponse<Body, Metadata = unknown> {
 
 export interface IApiError {
   errorId?: string
+  errorCode?: number
   errorReason?: string
-  customMessage?: string
-  message?: string
 }

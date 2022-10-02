@@ -97,7 +97,6 @@ abstract class BaseController<ResBody> implements IController {
         errorId,
         errorCode: isCustomErr ? rawError.code : genericApiResultCode.failure,
         errorReason: msgOverride || msg,
-        customMessage: isCustomErr ? rawError.message : msg,
       },
       body: isCustomErr ? rawError.error || {} : {},
     }
@@ -130,7 +129,7 @@ abstract class BaseController<ResBody> implements IController {
       | typeof HttpStatus.MOVED_TEMPORARILY
       | typeof HttpStatus.TEMPORARY_REDIRECT = HttpStatus.MOVED_TEMPORARILY,
     contentType = 'json',
-    err?: Error
+    err?: Error,
   ): IApiResult<ResBody> {
     return {
       redirectUrl: url,
@@ -159,7 +158,7 @@ export abstract class CustomController<Body, Metadata = unknown> extends BaseCon
     body: Body,
     message = 'success',
     resultCode = genericApiResultCode.success,
-    metadata?: Metadata
+    metadata?: Metadata,
   ): Promise<IApiResult<IApiResponse<Body, Metadata>>> {
     return Promise.resolve(this.buildApiResult(HttpStatus.OK, body, message, resultCode, metadata))
   }
@@ -217,7 +216,7 @@ export abstract class CustomController<Body, Metadata = unknown> extends BaseCon
     body: Body,
     message?: string,
     resultCode?: number,
-    metadata?: Metadata
+    metadata?: Metadata,
   ): IApiResult<IApiResponse<Body, Metadata>> {
     const resBody: IApiResponse<Body, Metadata> = {
       body,
