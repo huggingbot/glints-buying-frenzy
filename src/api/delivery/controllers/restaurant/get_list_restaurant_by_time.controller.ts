@@ -65,6 +65,7 @@ export const swGetListRestaurantByTime: OpenAPIV3.OperationObject = {
       schema: {
         type: 'number',
         minimum: 1,
+        maximum: 7,
       },
     },
     {

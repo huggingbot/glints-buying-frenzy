@@ -1,10 +1,15 @@
 import express from 'express'
-import { CreatePurchase } from '../controllers/purchase/create_purchase.controller'
+import { OpenAPIV3 } from 'openapi-types'
+import { Swagger } from '~/swagger'
+import { CreatePurchase, swCreatePurchase } from '../controllers/purchase/create_purchase.controller'
 
 export const purchaseRouter = express.Router()
 const baseRoute = '/purchases'
 
 // TODO: Authenticate user
-purchaseRouter.post(`${baseRoute}`, (req, res) => {
+const createPurchaseMethod = OpenAPIV3.HttpMethods.POST
+const createPurchaseRoute = `${baseRoute}`
+Swagger.register(createPurchaseRoute, createPurchaseMethod, swCreatePurchase)
+purchaseRouter[createPurchaseMethod](createPurchaseRoute, (req, res) => {
   void new CreatePurchase(req, res).handleRequest()
 })
