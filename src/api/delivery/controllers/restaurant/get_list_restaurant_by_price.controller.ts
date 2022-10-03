@@ -6,7 +6,7 @@ import { IApiResult } from '~/core/types'
 import { RestaurantService } from '~/modules/restaurant/restaurant.service'
 import { IRestaurantName } from '~/modules/restaurant/restaurant.types'
 
-interface IRestaurantQuery {
+interface IGetListRestaurantByPriceQuery {
   minPrice?: number
   maxPrice?: number
   dishComparison?: 'greater' | 'less'
@@ -22,12 +22,14 @@ export class GetListRestaurantByPriceController extends CustomController<IRestau
     this.restaurantService = new RestaurantService(this.logContext)
   }
 
-  protected async doRequest(req: Request<unknown, unknown, unknown, IRestaurantQuery>): Promise<IApiResult> {
+  protected async doRequest(
+    req: Request<unknown, unknown, unknown, IGetListRestaurantByPriceQuery>,
+  ): Promise<IApiResult> {
     try {
       const { minPrice, maxPrice, dishComparison, dishCount, restaurantCount } = req.query
 
       if (!minPrice || !maxPrice || !dishComparison || !dishCount || !restaurantCount) {
-        throw new CustomError('Required query strings not found')
+        throw new CustomError('Required query string(s) not found')
       }
       const result = await this.restaurantService.getRestaurantsByDishCountInPriceRange(
         Number(minPrice),

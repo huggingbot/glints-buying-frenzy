@@ -6,7 +6,7 @@ import { IApiResult } from '~/core/types'
 import { IRestaurantTime } from '~/modules/restaurant/restaurant.types'
 import { RestaurantTimeService } from '~/modules/restaurant/restaurant_time.service'
 
-interface IRestaurantQuery {
+interface IGetListRestaurantByTimeQuery {
   dayOfWeek?: number
   timeAsMinutes?: number
 }
@@ -19,12 +19,14 @@ export class GetListRestaurantByTimeController extends CustomController<IRestaur
     this.restaurantTimeService = new RestaurantTimeService(this.logContext)
   }
 
-  protected async doRequest(req: Request<unknown, unknown, unknown, IRestaurantQuery>): Promise<IApiResult> {
+  protected async doRequest(
+    req: Request<unknown, unknown, unknown, IGetListRestaurantByTimeQuery>,
+  ): Promise<IApiResult> {
     try {
       const { dayOfWeek, timeAsMinutes } = req.query
 
       if (!dayOfWeek || !timeAsMinutes) {
-        throw new CustomError('Required query strings not found')
+        throw new CustomError('Required query string(s) not found')
       }
       const result = await this.restaurantTimeService.getRestaurantsByTime(Number(dayOfWeek), Number(timeAsMinutes))
 
