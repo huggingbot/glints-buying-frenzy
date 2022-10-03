@@ -1,6 +1,6 @@
 import { BaseService } from '~/core/base.service'
 import { ILogContext } from '~/core/types'
-import { IRestaurant } from './restaurant.types'
+import { IRestaurantTime } from './restaurant.types'
 import { RestaurantTimeDb } from './restaurant_time.db'
 
 export class RestaurantTimeService extends BaseService {
@@ -11,12 +11,13 @@ export class RestaurantTimeService extends BaseService {
     this.restaurantTimeDb = new RestaurantTimeDb(logContext)
   }
 
-  public async getRestaurantsByTime(dayOfWeek: number, timeAsMinutes: number): Promise<IRestaurant[]> {
+  public async getRestaurantsByTime(dayOfWeek: number, timeAsMinutes: number): Promise<IRestaurantTime[]> {
     const result = await this.restaurantTimeDb.findRestaurantsByTime(dayOfWeek, timeAsMinutes)
-    return result.map(({ restaurantIdRestaurantModel: { restaurantId, restaurantName, cashBalance } }) => ({
-      restaurantId,
+    return result.map(({ restaurantIdRestaurantModel: { restaurantName }, dayOfWeek, openingHour, closingHour }) => ({
       restaurantName,
-      cashBalance,
+      dayOfWeek,
+      openingHour,
+      closingHour,
     }))
   }
 }

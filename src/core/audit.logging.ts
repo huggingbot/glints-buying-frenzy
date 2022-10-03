@@ -88,5 +88,6 @@ export default class auditLogger {
 }
 
 export enum ETransactional {
-  GetListRestaurant = 'GetListRestaurant',
+  GetListRestaurantByTime = 'GetListRestaurantByTime',
+  GetListRestaurantByPrice = 'GetListRestaurantByPrice',
 }

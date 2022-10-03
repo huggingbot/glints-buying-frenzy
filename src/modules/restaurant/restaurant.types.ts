@@ -1,5 +1,10 @@
-export interface IRestaurant {
-  restaurantId: number
+export interface IRestaurantTime {
   restaurantName: string
-  cashBalance: number
+  dayOfWeek: number
+  openingHour: number
+  closingHour: number
+}
+
+export interface IRestaurantName {
+  restaurantName: string
 }

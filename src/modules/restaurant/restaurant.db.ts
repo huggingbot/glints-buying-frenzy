@@ -1,6 +1,7 @@
-import { fn, Op, where } from 'sequelize'
+import { QueryTypes } from 'sequelize'
 import { BaseDb } from '~/core/base.db'
 import { ILogContext } from '~/core/types'
+import { database } from '~/db_scripts'
 import { IRestaurantModelAttrs, RestaurantModelStatic, restaurantModelStatic } from '~/models/RestaurantModel'
 
 export class RestaurantDb extends BaseDb<RestaurantModelStatic, IRestaurantModelAttrs> {
@@ -15,27 +16,27 @@ export class RestaurantDb extends BaseDb<RestaurantModelStatic, IRestaurantModel
     dishCount: number,
     restaurantCount: number,
   ): Promise<IRestaurantModelAttrs[]> {
-    const restaurantMenuModelStatic = restaurantModelStatic.assoc.restaurantIdRestaurantMenuModels()
+    const comparison = dishComparison === 'greater' ? '>' : '<'
 
-    return (
-      await restaurantModelStatic.findAll({
-        where: {
-          [restaurantMenuModelStatic.attrs.price]: { [Op.between]: [minPrice, maxPrice] },
-        },
-        include: [
-          {
-            model: restaurantMenuModelStatic,
-            required: true,
-            as: restaurantModelStatic.alias.restaurantIdRestaurantMenuModels,
-          },
-        ],
-        group: [restaurantModelStatic.attrs.restaurantId],
-        having: where(fn('COUNT', '*'), {
-          [dishComparison === 'greater' ? Op.gt : Op.lt]: dishCount,
-        }),
-        order: [restaurantModelStatic.attrs.restaurantName, 'ASC'],
-        limit: restaurantCount,
-      })
-    ).map((i) => i.toJSON()) as IRestaurantModelAttrs[]
+    return (await database.query(
+      `
+        SELECT 
+            r.restaurantId, r.restaurantName, COUNT(*) AS dishCount
+        FROM
+            restaurant AS r
+                INNER JOIN
+            restaurant_menu AS rm ON r.restaurantId = rm.restaurantId
+        WHERE
+            rm.price BETWEEN :minPrice AND :maxPrice
+        GROUP BY r.restaurantId
+        HAVING dishCount ${comparison} :dishCount
+        ORDER BY r.restaurantName ASC
+        LIMIT :restaurantCount
+      `,
+      {
+        replacements: { minPrice, maxPrice, dishCount, restaurantCount },
+        type: QueryTypes.SELECT,
+      },
+    )) as IRestaurantModelAttrs[]
   }
 }

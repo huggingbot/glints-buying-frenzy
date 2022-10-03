@@ -1,7 +1,7 @@
 import { BaseService } from '~/core/base.service'
 import { ILogContext } from '~/core/types'
 import { RestaurantDb } from './restaurant.db'
-import { IRestaurant } from './restaurant.types'
+import { IRestaurantName } from './restaurant.types'
 
 export class RestaurantService extends BaseService {
   private restaurantDb: RestaurantDb
@@ -17,7 +17,7 @@ export class RestaurantService extends BaseService {
     dishComparison: 'greater' | 'less',
     dishCount: number,
     restaurantCount: number,
-  ): Promise<IRestaurant[]> {
+  ): Promise<IRestaurantName[]> {
     const result = await this.restaurantDb.findRestaurantsByDishCountInPriceRange(
       minPrice,
       maxPrice,
@@ -25,10 +25,6 @@ export class RestaurantService extends BaseService {
       dishCount,
       restaurantCount,
     )
-    return result.map(({ restaurantId, restaurantName, cashBalance }) => ({
-      restaurantId,
-      restaurantName,
-      cashBalance,
-    }))
+    return result.map(({ restaurantName }) => ({ restaurantName }))
   }
 }

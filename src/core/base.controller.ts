@@ -89,7 +89,7 @@ abstract class BaseController<ResBody> implements IController {
     const isValidationErr = rawError instanceof ValidationError
     const resultCode = isCustomErr ? Number(rawError.code) : genericApiResultCode.failure
     const errorId = this.reqId
-    const msg = isCustomErr || isValidationErr ? rawError : 'Something unexpected went wrong'
+    const msg = isCustomErr || isValidationErr ? rawError.message : 'Something unexpected went wrong'
 
     return {
       resultCode: isValidationErr ? -400 : resultCode,

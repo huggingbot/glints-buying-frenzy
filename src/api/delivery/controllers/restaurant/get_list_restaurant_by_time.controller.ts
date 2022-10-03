@@ -3,7 +3,7 @@ import { ETransactional } from '~/core/audit.logging'
 import { CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
 import { IApiResult } from '~/core/types'
-import { IRestaurant } from '~/modules/restaurant/restaurant.types'
+import { IRestaurantTime } from '~/modules/restaurant/restaurant.types'
 import { RestaurantTimeService } from '~/modules/restaurant/restaurant_time.service'
 
 interface IRestaurantQuery {
@@ -11,7 +11,7 @@ interface IRestaurantQuery {
   timeAsMinutes?: number
 }
 
-export class GetListRestaurantByTimeController extends CustomController<IRestaurant[]> {
+export class GetListRestaurantByTimeController extends CustomController<IRestaurantTime[]> {
   private restaurantTimeService: RestaurantTimeService
 
   public constructor(req: Request, res: Response) {
@@ -26,9 +26,9 @@ export class GetListRestaurantByTimeController extends CustomController<IRestaur
       if (!dayOfWeek || !timeAsMinutes) {
         throw new CustomError('Required query strings not found')
       }
-      const result = await this.restaurantTimeService.getRestaurantsByTime(dayOfWeek, timeAsMinutes)
+      const result = await this.restaurantTimeService.getRestaurantsByTime(Number(dayOfWeek), Number(timeAsMinutes))
 
-      return this.success(result as IRestaurant[], 'Successfully got restaurants')
+      return this.success(result, 'Successfully got restaurants')
     } catch (err) {
       if (err instanceof CustomError) {
         return this.badRequest(err)
@@ -38,6 +38,6 @@ export class GetListRestaurantByTimeController extends CustomController<IRestaur
   }
 
   protected getTxType(): string {
-    return ETransactional.GetListRestaurant
+    return ETransactional.GetListRestaurantByTime
   }
 }
