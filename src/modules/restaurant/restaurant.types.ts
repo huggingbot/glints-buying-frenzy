@@ -8,3 +8,8 @@ export interface IRestaurantTime {
 export interface IRestaurantName {
   restaurantName: string
 }
+
+export interface IRestaurantMenuSearch {
+  searchResult: string
+  score: number
+}
