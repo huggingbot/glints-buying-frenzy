@@ -1,7 +1,11 @@
 import { Request, Response } from 'express'
+import HttpStatus from 'http-status-codes'
 import Joi from 'joi'
+import j2s from 'joi-to-swagger'
+import { OpenAPIV3 } from 'openapi-types'
+import { EContentType } from '~/constants'
 import { ETransactional } from '~/core/audit.logging'
-import { CustomController } from '~/core/base.controller'
+import { customApiErrorResponseSchema, customApiResponseSchema, CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
 import { IApiResult } from '~/core/types'
 import { RestaurantService } from '~/modules/restaurant/restaurant.service'
@@ -15,7 +19,7 @@ interface IGetListRestaurantByPriceQuery {
   restaurantCount?: number
 }
 
-export class GetListRestaurantByPriceController extends CustomController<IRestaurantName[]> {
+export class GetListRestaurantByPrice extends CustomController<IRestaurantName[]> {
   private restaurantService: RestaurantService
 
   public constructor(req: Request, res: Response) {
@@ -59,3 +63,94 @@ const validationSchema = Joi.object({
   dishCount: Joi.number().required().min(0),
   restaurantCount: Joi.number().required().min(0),
 })
+
+export const swGetListRestaurantByPrice: OpenAPIV3.OperationObject = {
+  summary: 'Get restaurants by price',
+  description:
+    'List top y restaurants that have more or less than x number of dishes within a price range, ranked alphabetically. More or less (than x) is a parameter that the API allows the consumer to enter.',
+  tags: ['restaurant'],
+  parameters: [
+    {
+      name: 'minPrice',
+      in: 'query',
+      description: 'Minimum price',
+      required: true,
+      schema: {
+        type: 'number',
+        minimum: 0,
+      },
+    },
+    {
+      name: 'maxPrice',
+      in: 'query',
+      description: 'Maximum price',
+      required: true,
+      schema: {
+        type: 'number',
+        minimum: 0,
+      },
+    },
+    {
+      name: 'dishComparison',
+      in: 'query',
+      description: 'Operator used by a query result to compare against `dishCount`',
+      required: true,
+      schema: {
+        type: 'string',
+        enum: ['greater', 'less'],
+      },
+    },
+    {
+      name: 'dishCount',
+      in: 'query',
+      description: 'Number of dishes to be compared against',
+      required: true,
+      schema: {
+        type: 'number',
+        minimum: 0,
+      },
+    },
+    {
+      name: 'restaurantCount',
+      in: 'query',
+      description: 'Number of restaurants to list',
+      required: true,
+      schema: {
+        type: 'number',
+        minimum: 0,
+      },
+    },
+  ],
+  responses: {
+    [HttpStatus.OK]: {
+      description: 'Success',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(
+            customApiResponseSchema(
+              Joi.object({
+                restaurantName: Joi.string().required(),
+              }).required(),
+            ),
+          ).swagger,
+        },
+      },
+    },
+    [HttpStatus.BAD_REQUEST]: {
+      description: 'Bad Request. Validation Error.',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(customApiErrorResponseSchema()).swagger,
+        },
+      },
+    },
+    [HttpStatus.INTERNAL_SERVER_ERROR]: {
+      description: 'Internal Server Error',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(customApiErrorResponseSchema()).swagger,
+        },
+      },
+    },
+  },
+}

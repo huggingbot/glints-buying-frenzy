@@ -7,7 +7,7 @@ import { IApiResult } from '~/core/types'
 import { PurchaseService } from '~/modules/purchase/purchase.service'
 import { IPurchase, IPurchaseRequestBody } from '~/modules/purchase/purchase.types'
 
-export class CreatePurchaseController extends CustomController<IPurchase[]> {
+export class CreatePurchase extends CustomController<IPurchase[]> {
   private purchaseService: PurchaseService
 
   public constructor(req: Request, res: Response) {

@@ -5,6 +5,7 @@ import auditLogger from '~/core/audit.logging'
 import logger, { generateLogContext } from '~/core/logging'
 import { CustomError } from './base.errors'
 import { IApiResponse, IApiResult, ILogContext } from './types'
+import Joi, { Schema } from 'joi'
 
 export const genericApiResultCode = {
   success: 1,
@@ -233,4 +234,25 @@ export abstract class CustomController<Body, Metadata = unknown> extends BaseCon
   private processError(err: CustomError | unknown, message?: string): IApiResponse<Body, Metadata> {
     return super.constructErrorResponse(err, message) as IApiResponse<Body, Metadata>
   }
+}
+
+export const customApiResponseSchema = (body: Schema, metadata?: Schema): Schema => {
+  return Joi.object({
+    body,
+    resultCode: Joi.number().required(),
+    message: Joi.string().required(),
+    metadata: metadata ?? Joi.object(),
+  })
+}
+
+export const customApiErrorResponseSchema = (): Schema => {
+  return Joi.object({
+    resultCode: Joi.number().required(),
+    error: Joi.object({
+      errorId: Joi.string(),
+      errorReason: Joi.string(),
+      customMessage: Joi.string(),
+      message: Joi.string(),
+    }),
+  })
 }

@@ -8,9 +8,14 @@ import { apiMwRouter, securityMwRouter } from './middlewares'
 import { modelsInit } from './models'
 import debugRouter from './routers/debug.routes'
 import deliveryRoutes from './routers/delivery.routes'
+import swaggerUi from 'swagger-ui-express'
+import swaggerDoc from '~/swagger/swagger.def'
 
 export const startServer = async (): Promise<void> => {
   const app = express()
+
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+
   app.use(compression())
   app.use(cookieParser())
   app.use(express.json())

@@ -12,7 +12,7 @@ interface IGetListRestaurantByTimeQuery {
   timeAsMinutes?: number
 }
 
-export class GetListRestaurantByTimeController extends CustomController<IRestaurantTime[]> {
+export class GetListRestaurantByTime extends CustomController<IRestaurantTime[]> {
   private restaurantTimeService: RestaurantTimeService
 
   public constructor(req: Request, res: Response) {

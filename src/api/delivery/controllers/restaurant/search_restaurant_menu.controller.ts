@@ -11,7 +11,7 @@ interface ISearchRestaurantMenuControllerQuery {
   searchTerm?: string
 }
 
-export class SearchRestaurantMenuController extends CustomController<IRestaurantMenuSearch[]> {
+export class SearchRestaurantMenu extends CustomController<IRestaurantMenuSearch[]> {
   private restaurantMenuService: RestaurantMenuService
 
   public constructor(req: Request, res: Response) {
