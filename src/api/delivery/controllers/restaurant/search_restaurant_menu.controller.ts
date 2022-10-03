@@ -39,6 +39,6 @@ export class SearchRestaurantMenuController extends CustomController<IRestaurant
   }
 
   protected getTxType(): string {
-    return ETransactional.GetListRestaurantByTime
+    return ETransactional.SearchRestaurantMenu
   }
 }
