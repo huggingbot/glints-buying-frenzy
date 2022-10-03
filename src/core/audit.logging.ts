@@ -91,4 +91,5 @@ export enum ETransactional {
   GetListRestaurantByTime = 'GetListRestaurantByTime',
   GetListRestaurantByPrice = 'GetListRestaurantByPrice',
   SearchRestaurantMenu = 'SearchRestaurantMenu',
+  CreatePurchase = 'CreatePurchase',
 }
