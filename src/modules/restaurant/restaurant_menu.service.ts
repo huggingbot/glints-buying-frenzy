@@ -1,3 +1,4 @@
+import { CustomError } from '~/core/base.errors'
 import { BaseService } from '~/core/base.service'
 import { ILogContext } from '~/core/types'
 import { IRestaurantMenuSearch } from './restaurant.types'
@@ -8,11 +9,16 @@ export class RestaurantMenuService extends BaseService {
 
   public constructor(logContext: ILogContext) {
     super(logContext)
+    this.name = 'RestaurantMenuService'
     this.restaurantMenuDb = new RestaurantMenuDb(logContext)
   }
 
   public async searchRestaurantsAndMenusByName(searchTerm: string): Promise<IRestaurantMenuSearch[]> {
-    const result = await this.restaurantMenuDb.findRestaurantsAndMenusByName(searchTerm)
-    return result.map(({ searchResult, score }) => ({ searchResult, score }))
+    try {
+      const result = await this.restaurantMenuDb.findRestaurantsAndMenusByName(searchTerm)
+      return result.map(({ searchResult, score }) => ({ searchResult, score }))
+    } catch (err) {
+      throw new CustomError(this.name)
+    }
   }
 }

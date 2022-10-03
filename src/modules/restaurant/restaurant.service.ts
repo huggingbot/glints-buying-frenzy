@@ -1,3 +1,4 @@
+import { CustomError } from '~/core/base.errors'
 import { BaseService } from '~/core/base.service'
 import { ILogContext } from '~/core/types'
 import { RestaurantDb } from './restaurant.db'
@@ -8,6 +9,7 @@ export class RestaurantService extends BaseService {
 
   public constructor(logContext: ILogContext) {
     super(logContext)
+    this.name = 'RestaurantService'
     this.restaurantDb = new RestaurantDb(logContext)
   }
 
@@ -18,13 +20,17 @@ export class RestaurantService extends BaseService {
     dishCount: number,
     restaurantCount: number,
   ): Promise<IRestaurantName[]> {
-    const result = await this.restaurantDb.findRestaurantsByDishCountInPriceRange(
-      minPrice,
-      maxPrice,
-      dishComparison,
-      dishCount,
-      restaurantCount,
-    )
-    return result.map(({ restaurantName }) => ({ restaurantName }))
+    try {
+      const result = await this.restaurantDb.findRestaurantsByDishCountInPriceRange(
+        minPrice,
+        maxPrice,
+        dishComparison,
+        dishCount,
+        restaurantCount,
+      )
+      return result.map(({ restaurantName }) => ({ restaurantName }))
+    } catch (err) {
+      throw new CustomError(this.name)
+    }
   }
 }
