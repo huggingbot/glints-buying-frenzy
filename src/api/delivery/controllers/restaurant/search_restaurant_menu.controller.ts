@@ -1,7 +1,11 @@
 import { Request, Response } from 'express'
+import HttpStatus from 'http-status-codes'
 import Joi, { ValidationError } from 'joi'
+import j2s from 'joi-to-swagger'
+import { OpenAPIV3 } from 'openapi-types'
+import { EContentType } from '~/constants'
 import { ETransactional } from '~/core/audit.logging'
-import { CustomController } from '~/core/base.controller'
+import { customApiErrorResponseSchema, customApiResponseSchema, CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
 import { IApiResult } from '~/core/types'
 import { IRestaurantMenuSearch } from '~/modules/restaurant/restaurant.types'
@@ -45,3 +49,53 @@ export class SearchRestaurantMenu extends CustomController<IRestaurantMenuSearch
 const validationSchema = Joi.object({
   searchTerm: Joi.string().required(),
 })
+
+export const swSearchRestaurantMenu: OpenAPIV3.OperationObject = {
+  summary: 'Search restaurant and menu names',
+  description: 'Search for restaurants or dishes by name, ranked by relevance to search term.',
+  tags: ['restaurant'],
+  parameters: [
+    {
+      name: 'searchTerm',
+      in: 'query',
+      description: 'Search term',
+      required: true,
+      schema: {
+        type: 'string',
+      },
+    },
+  ],
+  responses: {
+    [HttpStatus.OK]: {
+      description: 'Successfully got restaurants',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(
+            customApiResponseSchema(
+              Joi.object({
+                searchResult: Joi.string().required(),
+                score: Joi.number().required(),
+              }).required(),
+            ),
+          ).swagger,
+        },
+      },
+    },
+    [HttpStatus.BAD_REQUEST]: {
+      description: 'Bad Request. Validation Error.',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(customApiErrorResponseSchema()).swagger,
+        },
+      },
+    },
+    [HttpStatus.INTERNAL_SERVER_ERROR]: {
+      description: 'Internal Server Error',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(customApiErrorResponseSchema()).swagger,
+        },
+      },
+    },
+  },
+}

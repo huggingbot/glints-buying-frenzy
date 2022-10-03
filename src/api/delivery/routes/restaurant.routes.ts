@@ -9,7 +9,10 @@ import {
   GetListRestaurantByTime,
   swGetListRestaurantByTime,
 } from '../controllers/restaurant/get_list_restaurant_by_time.controller'
-import { SearchRestaurantMenu } from '../controllers/restaurant/search_restaurant_menu.controller'
+import {
+  SearchRestaurantMenu,
+  swSearchRestaurantMenu,
+} from '../controllers/restaurant/search_restaurant_menu.controller'
 
 export const restaurantRouter = express.Router()
 const baseRoute = '/restaurants'
@@ -28,6 +31,9 @@ restaurantRouter[getListRestaurantByPriceMethod](getListRestaurantByPriceRoute, 
   void new GetListRestaurantByPrice(req, res).handleRequest()
 })
 
-restaurantRouter.get(`${baseRoute}/search`, (req, res) => {
+const searchRestaurantMenuMethod = OpenAPIV3.HttpMethods.GET
+const searchRestaurantMenuRoute = `${baseRoute}/search`
+Swagger.register(searchRestaurantMenuRoute, searchRestaurantMenuMethod, swSearchRestaurantMenu)
+restaurantRouter[searchRestaurantMenuMethod](searchRestaurantMenuRoute, (req, res) => {
   void new SearchRestaurantMenu(req, res).handleRequest()
 })

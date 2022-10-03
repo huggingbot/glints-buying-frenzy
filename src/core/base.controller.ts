@@ -239,7 +239,7 @@ export abstract class CustomController<Body, Metadata = unknown> extends BaseCon
 export const customApiResponseSchema = (body: Schema, metadata?: Schema): Schema => {
   return Joi.object({
     body,
-    resultCode: Joi.number().required(),
+    resultCode: Joi.number().required().valid(1),
     message: Joi.string().required(),
     metadata: metadata ?? Joi.object(),
   })
@@ -247,7 +247,7 @@ export const customApiResponseSchema = (body: Schema, metadata?: Schema): Schema
 
 export const customApiErrorResponseSchema = (): Schema => {
   return Joi.object({
-    resultCode: Joi.number().required(),
+    resultCode: Joi.number().required().valid(-1),
     error: Joi.object({
       errorId: Joi.string(),
       errorReason: Joi.string(),
