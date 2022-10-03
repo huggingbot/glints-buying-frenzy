@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import Joi from 'joi'
 import { ETransactional } from '~/core/audit.logging'
 import { CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
@@ -26,11 +27,9 @@ export class GetListRestaurantByPriceController extends CustomController<IRestau
     req: Request<unknown, unknown, unknown, IGetListRestaurantByPriceQuery>,
   ): Promise<IApiResult> {
     try {
+      await validationSchema.validateAsync(req.query)
       const { minPrice, maxPrice, dishComparison, dishCount, restaurantCount } = req.query
 
-      if (!minPrice || !maxPrice || !dishComparison || !dishCount || !restaurantCount) {
-        throw new CustomError('Required query string(s) not found')
-      }
       const result = await this.restaurantService.getRestaurantsByDishCountInPriceRange(
         Number(minPrice),
         Number(maxPrice),
@@ -52,3 +51,11 @@ export class GetListRestaurantByPriceController extends CustomController<IRestau
     return ETransactional.GetListRestaurantByPrice
   }
 }
+
+const validationSchema = Joi.object({
+  minPrice: Joi.number().required().min(0),
+  maxPrice: Joi.number().required().min(0),
+  dishComparison: Joi.string().required().valid('greater', 'lesser'),
+  dishCount: Joi.number().required().min(0),
+  restaurantCount: Joi.number().required().min(0),
+})

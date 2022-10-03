@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import Joi from 'joi'
 import { ETransactional } from '~/core/audit.logging'
 import { CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
@@ -22,11 +23,9 @@ export class SearchRestaurantMenuController extends CustomController<IRestaurant
     req: Request<unknown, unknown, unknown, ISearchRestaurantMenuControllerQuery>,
   ): Promise<IApiResult> {
     try {
+      await validationSchema.validateAsync(req.query)
       const { searchTerm } = req.query
 
-      if (!searchTerm) {
-        throw new CustomError('Required query string(s) not found')
-      }
       const result = await this.restaurantMenuService.searchRestaurantsAndMenusByName(searchTerm)
 
       return this.success(result, 'Success')
@@ -42,3 +41,7 @@ export class SearchRestaurantMenuController extends CustomController<IRestaurant
     return ETransactional.SearchRestaurantMenu
   }
 }
+
+const validationSchema = Joi.object({
+  searchTerm: Joi.string().required(),
+})

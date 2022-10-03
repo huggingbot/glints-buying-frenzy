@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import Joi from 'joi'
 import { ETransactional } from '~/core/audit.logging'
 import { CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
@@ -23,11 +24,9 @@ export class GetListRestaurantByTimeController extends CustomController<IRestaur
     req: Request<unknown, unknown, unknown, IGetListRestaurantByTimeQuery>,
   ): Promise<IApiResult> {
     try {
+      await validationSchema.validateAsync(req.query)
       const { dayOfWeek, timeAsMinutes } = req.query
 
-      if (!dayOfWeek || !timeAsMinutes) {
-        throw new CustomError('Required query string(s) not found')
-      }
       const result = await this.restaurantTimeService.getRestaurantsByTime(Number(dayOfWeek), Number(timeAsMinutes))
 
       return this.success(result, 'Successfully got restaurants')
@@ -43,3 +42,8 @@ export class GetListRestaurantByTimeController extends CustomController<IRestaur
     return ETransactional.GetListRestaurantByTime
   }
 }
+
+const validationSchema = Joi.object({
+  dayOfWeek: Joi.number().required().min(1).max(7),
+  timeAsMinutes: Joi.number().required().min(0).max(1439),
+})
