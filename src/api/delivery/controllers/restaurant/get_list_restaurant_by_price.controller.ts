@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import HttpStatus from 'http-status-codes'
-import Joi from 'joi'
+import Joi, { ValidationError } from 'joi'
 import j2s from 'joi-to-swagger'
 import { OpenAPIV3 } from 'openapi-types'
 import { EContentType } from '~/constants'
@@ -44,7 +44,7 @@ export class GetListRestaurantByPrice extends CustomController<IRestaurantName[]
 
       return this.success(result, 'Successfully got restaurants')
     } catch (err) {
-      if (err instanceof CustomError) {
+      if (err instanceof CustomError || err instanceof ValidationError) {
         return this.badRequest(err)
       }
       return this.internalServerError(err)
@@ -123,7 +123,7 @@ export const swGetListRestaurantByPrice: OpenAPIV3.OperationObject = {
   ],
   responses: {
     [HttpStatus.OK]: {
-      description: 'Success',
+      description: 'Successfully got restaurants',
       content: {
         [EContentType.JSON]: {
           schema: j2s(

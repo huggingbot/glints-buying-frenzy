@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import Joi from 'joi'
+import Joi, { ValidationError } from 'joi'
 import { ETransactional } from '~/core/audit.logging'
 import { CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
@@ -30,7 +30,7 @@ export class CreatePurchase extends CustomController<IPurchase[]> {
 
       return this.success(result, 'Successfully created purchase history record')
     } catch (err) {
-      if (err instanceof CustomError) {
+      if (err instanceof CustomError || err instanceof ValidationError) {
         return this.badRequest(err)
       }
       return this.internalServerError(err)

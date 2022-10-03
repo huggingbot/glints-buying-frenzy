@@ -1,7 +1,11 @@
 import { Request, Response } from 'express'
-import Joi from 'joi'
+import HttpStatus from 'http-status-codes'
+import Joi, { ValidationError } from 'joi'
+import j2s from 'joi-to-swagger'
+import { OpenAPIV3 } from 'openapi-types'
+import { EContentType } from '~/constants'
 import { ETransactional } from '~/core/audit.logging'
-import { CustomController } from '~/core/base.controller'
+import { customApiErrorResponseSchema, customApiResponseSchema, CustomController } from '~/core/base.controller'
 import { CustomError } from '~/core/base.errors'
 import { IApiResult } from '~/core/types'
 import { IRestaurantTime } from '~/modules/restaurant/restaurant.types'
@@ -31,7 +35,7 @@ export class GetListRestaurantByTime extends CustomController<IRestaurantTime[]>
 
       return this.success(result, 'Successfully got restaurants')
     } catch (err) {
-      if (err instanceof CustomError) {
+      if (err instanceof CustomError || err instanceof ValidationError) {
         return this.badRequest(err)
       }
       return this.internalServerError(err)
@@ -47,3 +51,67 @@ const validationSchema = Joi.object({
   dayOfWeek: Joi.number().required().min(1).max(7),
   timeAsMinutes: Joi.number().required().min(0).max(1439),
 })
+
+export const swGetListRestaurantByTime: OpenAPIV3.OperationObject = {
+  summary: 'Get restaurants by time',
+  description: 'List all restaurants that are open at a certain datetime.',
+  tags: ['restaurant'],
+  parameters: [
+    {
+      name: 'dayOfWeek',
+      in: 'query',
+      description: 'Day of week',
+      required: true,
+      schema: {
+        type: 'number',
+        minimum: 1,
+      },
+    },
+    {
+      name: 'timeAsMinutes',
+      in: 'query',
+      description: 'Time expressed in minutes',
+      required: true,
+      schema: {
+        type: 'number',
+        minimum: 0,
+        maximum: 1439,
+      },
+    },
+  ],
+  responses: {
+    [HttpStatus.OK]: {
+      description: 'Successfully got restaurants',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(
+            customApiResponseSchema(
+              Joi.object({
+                restaurantName: Joi.string().required(),
+                dayOfWeek: Joi.number().required().min(1).max(7),
+                openingHour: Joi.number().required().min(0).max(1439),
+                closingHour: Joi.number().required().min(0).max(1439),
+              }).required(),
+            ),
+          ).swagger,
+        },
+      },
+    },
+    [HttpStatus.BAD_REQUEST]: {
+      description: 'Bad Request. Validation Error.',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(customApiErrorResponseSchema()).swagger,
+        },
+      },
+    },
+    [HttpStatus.INTERNAL_SERVER_ERROR]: {
+      description: 'Internal Server Error',
+      content: {
+        [EContentType.JSON]: {
+          schema: j2s(customApiErrorResponseSchema()).swagger,
+        },
+      },
+    },
+  },
+}
