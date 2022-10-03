@@ -1,15 +1,15 @@
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import express from 'express'
+import swaggerUi from 'swagger-ui-express'
 import { apiNotFoundMw, genericErrorMw } from '~/middlewares/error.middleware'
+import swaggerDoc from '~/swagger/swagger.def'
 import { appConfig } from './core/app.config'
 import logger from './core/logging'
 import { apiMwRouter, securityMwRouter } from './middlewares'
 import { modelsInit } from './models'
 import debugRouter from './routers/debug.routes'
 import deliveryRoutes from './routers/delivery.routes'
-import swaggerUi from 'swagger-ui-express'
-import swaggerDoc from '~/swagger/swagger.def'
 
 export const startServer = async (): Promise<void> => {
   const app = express()
