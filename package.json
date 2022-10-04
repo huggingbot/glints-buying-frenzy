@@ -1,7 +1,6 @@
 {
   "name": "backend-buying-frenzy",
   "version": "1.0.0",
-  "type": "module",
   "description": "Backend buying frenzy",
   "repository": "https://github.com/huggingbot/backend-buying-frenzy.git",
   "author": "huggingbot <83656073+huggingbot@users.noreply.github.com>",
@@ -15,7 +14,7 @@
     "build": "rimraf dist coverage *.tsbuildinfo && tsc -p tsconfig.build.json",
     "serve": "node  -r ./bootstrap.js dist/src/index.js",
     "lint": "tsc && eslint 'src/' --ignore-path .eslintignore --ext ts,js --max-warnings=0",
-    "test": "jest --coverage",
+    "test": "jest src --testPathIgnorePatterns jest/ --coverage",
     "test:int": "jest jest/integration_tests --runInBand --coverage",
     "test:watch": "jest --watch",
     "prepare": "husky install",
