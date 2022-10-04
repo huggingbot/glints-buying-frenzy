@@ -1,6 +1,6 @@
-import { CustomError } from '~/core/base.errors'
-import { BaseService } from '~/core/base.service'
-import { ILogContext } from '~/core/types'
+import { CustomError } from '~/src/core/base.errors'
+import { BaseService } from '~/src/core/base.service'
+import { ILogContext } from '~/src/core/types'
 import { IRestaurantTime } from './restaurant.types'
 import { RestaurantTimeDb } from './restaurant_time.db'
 

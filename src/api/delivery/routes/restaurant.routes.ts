@@ -1,6 +1,6 @@
 import express from 'express'
 import { OpenAPIV3 } from 'openapi-types'
-import { Swagger } from '~/swagger'
+import { Swagger } from '~/src/swagger'
 import {
   GetListRestaurantByPrice,
   swGetListRestaurantByPrice,

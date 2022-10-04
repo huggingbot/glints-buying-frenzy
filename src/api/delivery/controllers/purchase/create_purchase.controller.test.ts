@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { ValidationError } from 'joi'
-import { CustomError } from '~/core/base.errors'
-import { IApiResult } from '~/core/types'
-import { PurchaseService } from '~/modules/purchase/purchase.service'
+import { CustomError } from '~/src/core/base.errors'
+import { IApiResult } from '~/src/core/types'
+import { PurchaseService } from '~/src/modules/purchase/purchase.service'
 import { CreatePurchase } from './create_purchase.controller'
 
 describe('CreatePurchase', () => {

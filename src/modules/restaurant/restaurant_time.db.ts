@@ -1,11 +1,11 @@
 import { Op } from 'sequelize'
-import { BaseDb } from '~/core/base.db'
-import { ILogContext } from '~/core/types'
+import { BaseDb } from '~/src/core/base.db'
+import { ILogContext } from '~/src/core/types'
 import {
   IRestaurantTimeModelAttrs,
   RestaurantTimeModelStatic,
   restaurantTimeModelStatic,
-} from '~/models/RestaurantTimeModel'
+} from '~/src/models/RestaurantTimeModel'
 
 export class RestaurantTimeDb extends BaseDb<RestaurantTimeModelStatic, IRestaurantTimeModelAttrs> {
   public constructor(logContext: ILogContext) {

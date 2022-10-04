@@ -1,5 +1,5 @@
 import { FindOptions, Identifier, Op, ScopeOptions, Transaction } from 'sequelize'
-import { StaticModel } from '~/db_scripts'
+import { StaticModel } from '~/src/db_scripts'
 import { ILogContext } from './types'
 
 export abstract class BaseDb<

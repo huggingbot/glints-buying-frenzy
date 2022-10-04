@@ -1,7 +1,7 @@
 /** ------------------  This is an auto-generated file. Do not edit.  ------------------  */
 import { DataTypes, Model, BuildOptions, fn } from 'sequelize'
-import { Optional } from '~/core/types'
-import { database, StaticModel } from '~/db_scripts'
+import { Optional } from '~/src/core/types'
+import { database, StaticModel } from '~/src/db_scripts'
 import {
   IRestaurantMenuModelAttrs,
   restaurantMenuModelStatic,

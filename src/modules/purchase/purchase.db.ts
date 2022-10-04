@@ -1,12 +1,12 @@
-import { BaseDb } from '~/core/base.db'
-import { ILogContext } from '~/core/types'
-import { database } from '~/db_scripts'
+import { BaseDb } from '~/src/core/base.db'
+import { ILogContext } from '~/src/core/types'
+import { database } from '~/src/db_scripts'
 import {
   IPurchaseHistoryModelAttrs,
   PurchaseHistoryModelStatic,
   purchaseHistoryModelStatic,
-} from '~/models/PurchaseHistoryModel'
-import { IRestaurantMenuModelAttrs } from '~/models/RestaurantMenuModel'
+} from '~/src/models/PurchaseHistoryModel'
+import { IRestaurantMenuModelAttrs } from '~/src/models/RestaurantMenuModel'
 
 export class PurchaseDb extends BaseDb<PurchaseHistoryModelStatic, IPurchaseHistoryModelAttrs> {
   public constructor(logContext: ILogContext) {

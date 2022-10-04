@@ -10,12 +10,10 @@
   "overrides": [
     {
       "files": ["*.ts", "*.js"],
-      "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:jest/recommended",
-        "prettier"
-      ],
+      "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:jest/recommended", "prettier"],
+      "rules": {
+        "jest/no-conditional-expect": "off"
+      },
       "parserOptions": {
         "project": "tsconfig.json",
         "sourceType": "module",

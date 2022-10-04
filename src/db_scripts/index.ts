@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import { BuildOptions, Model, Sequelize, Transaction } from 'sequelize'
-import logger from '~/core/logging'
+import logger from '~/src/core/logging'
 import config from './config'
 dotenv.config()
 

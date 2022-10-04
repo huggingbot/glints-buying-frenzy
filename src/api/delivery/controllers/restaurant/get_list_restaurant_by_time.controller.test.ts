@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { ValidationError } from 'joi'
-import { CustomError } from '~/core/base.errors'
-import { IApiResult } from '~/core/types'
-import { RestaurantTimeService } from '~/modules/restaurant/restaurant_time.service'
+import { CustomError } from '~/src/core/base.errors'
+import { IApiResult } from '~/src/core/types'
+import { RestaurantTimeService } from '~/src/modules/restaurant/restaurant_time.service'
 import { GetListRestaurantByTime } from './get_list_restaurant_by_time.controller'
 
 describe('GetListRestaurantByTime', () => {

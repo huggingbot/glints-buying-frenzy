@@ -1,6 +1,6 @@
 import express from 'express'
 import { OpenAPIV3 } from 'openapi-types'
-import { Swagger } from '~/swagger'
+import { Swagger } from '~/src/swagger'
 import { CreatePurchase, swCreatePurchase } from '../controllers/purchase/create_purchase.controller'
 
 export const purchaseRouter = express.Router()

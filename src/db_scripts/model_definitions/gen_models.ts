@@ -8,8 +8,8 @@ import { format, printDebug, readDefinitions } from './util'
 
 const DEFINITION_PATH = join(__dirname, 'definitions')
 const OUTPATH = join(__dirname, '..', '..', 'models')
-const COMMON_TYPE_PATH = '~/core/types'
-const DB_IMPORT_PATH = '~/db_scripts'
+const COMMON_TYPE_PATH = '~/src/core/types'
+const DB_IMPORT_PATH = '~/src/db_scripts'
 
 const main = async (): Promise<void> => {
   const definitions = await readDefinitions<ICreatorDefinition>(DEFINITION_PATH)

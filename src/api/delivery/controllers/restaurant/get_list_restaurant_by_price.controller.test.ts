@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { ValidationError } from 'joi'
-import { CustomError } from '~/core/base.errors'
-import { IApiResult } from '~/core/types'
-import { RestaurantService } from '~/modules/restaurant/restaurant.service'
+import { CustomError } from '~/src/core/base.errors'
+import { IApiResult } from '~/src/core/types'
+import { RestaurantService } from '~/src/modules/restaurant/restaurant.service'
 import { GetListRestaurantByPrice } from './get_list_restaurant_by_price.controller'
 
 describe('GetListRestaurantByPrice', () => {

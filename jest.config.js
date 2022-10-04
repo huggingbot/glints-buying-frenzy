@@ -1,6 +1,7 @@
-module.exports = {
+export default {
   testEnvironment: 'node',
-  preset: 'ts-jest/presets/default-esm',
+  preset: 'ts-jest',
+  setupFiles: ['<rootDir>/jest.setup.js'],
   globals: {
     'ts-jest': {
       useESM: true,
@@ -8,7 +9,7 @@ module.exports = {
     },
   },
   moduleNameMapper: {
-    '~/(.*)': '<rootDir>/src/$1',
+    '~/src/(.*)': '<rootDir>/src/$1',
   },
   moduleDirectories: ['<rootDir>/node_modules', '<rootDir>/src'],
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(m)?ts$',

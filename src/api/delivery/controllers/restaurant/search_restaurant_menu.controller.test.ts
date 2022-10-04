@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { ValidationError } from 'joi'
-import { CustomError } from '~/core/base.errors'
-import { IApiResult } from '~/core/types'
-import { RestaurantMenuService } from '~/modules/restaurant/restaurant_menu.service'
+import { CustomError } from '~/src/core/base.errors'
+import { IApiResult } from '~/src/core/types'
+import { RestaurantMenuService } from '~/src/modules/restaurant/restaurant_menu.service'
 import { SearchRestaurantMenu } from './search_restaurant_menu.controller'
 
 describe('SearchRestaurantMenu', () => {

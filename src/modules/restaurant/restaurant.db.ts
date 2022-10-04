@@ -1,8 +1,8 @@
 import { QueryTypes } from 'sequelize'
-import { BaseDb } from '~/core/base.db'
-import { ILogContext } from '~/core/types'
-import { database } from '~/db_scripts'
-import { IRestaurantModelAttrs, RestaurantModelStatic, restaurantModelStatic } from '~/models/RestaurantModel'
+import { BaseDb } from '~/src/core/base.db'
+import { ILogContext } from '~/src/core/types'
+import { database } from '~/src/db_scripts'
+import { IRestaurantModelAttrs, RestaurantModelStatic, restaurantModelStatic } from '~/src/models/RestaurantModel'
 
 export class RestaurantDb extends BaseDb<RestaurantModelStatic, IRestaurantModelAttrs> {
   public constructor(logContext: ILogContext) {
