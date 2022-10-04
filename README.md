@@ -59,6 +59,12 @@ yarn build && yarn serve
 yarn test
 ```
 
+### Integration Testing with Coverage
+
+```
+yarn test:int
+```
+
 ### API Documentations
 
 ```
