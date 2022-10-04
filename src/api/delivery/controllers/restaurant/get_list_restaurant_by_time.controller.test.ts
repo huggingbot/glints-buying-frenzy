@@ -6,7 +6,7 @@ import { IApiResult } from '~/core/types'
 import { RestaurantTimeService } from '~/modules/restaurant/restaurant_time.service'
 import { GetListRestaurantByTime } from './get_list_restaurant_by_time.controller'
 
-describe('GetListRestaurantByPrice', () => {
+describe('GetListRestaurantByTime', () => {
   const dayOfWeek = 1
   const timeAsMinutes = 1000
   const openingHour = 100
