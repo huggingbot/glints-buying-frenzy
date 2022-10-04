@@ -1,12 +1,11 @@
 import { OpenAPIV3 } from 'openapi-types'
 import { Swagger } from '.'
-import pjson from '../../package.json'
 
 const swagger: OpenAPIV3.Document = {
   openapi: '3.0.0',
   info: {
     title: 'CUSTOM API',
-    version: pjson.version,
+    version: '1.0.0',
     description: `Custom Api docs.`,
   },
   servers: [

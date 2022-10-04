@@ -26,4 +26,3 @@ else
 fi
 
 echo $'[Resetting local db] \n'
-# NODE_ENV=local yarn db:reset

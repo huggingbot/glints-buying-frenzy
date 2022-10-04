@@ -25,7 +25,7 @@
     "db:create": "npx sequelize db:create",
     "db:migrate": "npx sequelize db:migrate --debug",
     "db:seed": "npx sequelize db:seed:all --debug",
-    "db:reset": "yarn db:etl && yarn db:gen-models && yarn db:gen-migrations && yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed"
+    "db:reset": "yarn db:gen-models && yarn db:gen-migrations && yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed"
   },
   "devDependencies": {
     "@types/compression": "^1.7.2",
