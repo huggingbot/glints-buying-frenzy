@@ -53,7 +53,7 @@ yarn start
 yarn build && yarn serve
 ```
 
-### Unit testing with coverage
+### Unit Testing with Coverage
 
 ```
 yarn test
