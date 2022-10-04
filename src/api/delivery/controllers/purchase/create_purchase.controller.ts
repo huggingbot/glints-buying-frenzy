@@ -25,10 +25,10 @@ export class CreatePurchase extends CustomController<IPurchase[]> {
       const { userId, restaurantId, menuId, transactionAmount, transactionDate } = req.body
 
       const result = await this.purchaseService.purchaseDish(
-        userId,
-        restaurantId,
-        menuId,
-        transactionAmount,
+        Number(userId),
+        Number(restaurantId),
+        Number(menuId),
+        Number(transactionAmount),
         transactionDate,
       )
 
