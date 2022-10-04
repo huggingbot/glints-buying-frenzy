@@ -10,7 +10,7 @@ module.exports = {
   moduleNameMapper: {
     '~/(.*)': '<rootDir>/src/$1',
   },
-  moduleDirectories: ['./node_modules', './src'],
+  moduleDirectories: ['./node_modules', '<rootDir>/src'],
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(m)?ts$',
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: ['db_scripts', 'swagger'],
