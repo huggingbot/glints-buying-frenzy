@@ -1,3 +1,7 @@
 export enum EContentType {
-  JSON = 'application/json',
+  Json = 'application/json',
+}
+
+export enum EApiVersion {
+  Delivery = 'v1',
 }

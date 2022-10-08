@@ -1,5 +1,6 @@
 import merge from 'lodash/merge'
 import { OpenAPIV3 } from 'openapi-types'
+import { EApiVersion } from '../constants'
 
 class SwaggerDoc {
   private paths: OpenAPIV3.PathsObject<unknown, unknown>
@@ -10,7 +11,7 @@ class SwaggerDoc {
 
   register(path: string, method: OpenAPIV3.HttpMethods, op: OpenAPIV3.OperationObject = { responses: {} }): void {
     const pathItemObj: OpenAPIV3.PathItemObject = {
-      [`/api/delivery/v1${this.formatPath(path)}`]: {
+      [`/api/delivery/${EApiVersion.Delivery}${this.formatPath(path)}`]: {
         [method]: op,
       },
     }

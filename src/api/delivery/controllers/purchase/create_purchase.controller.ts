@@ -60,7 +60,7 @@ export const swCreatePurchase: OpenAPIV3.OperationObject = {
   tags: ['purchase'],
   requestBody: {
     content: {
-      [EContentType.JSON]: {
+      [EContentType.Json]: {
         schema: j2s(validationSchema).swagger,
       },
     },
@@ -69,7 +69,7 @@ export const swCreatePurchase: OpenAPIV3.OperationObject = {
     [HttpStatus.OK]: {
       description: 'Successfully got restaurants',
       content: {
-        [EContentType.JSON]: {
+        [EContentType.Json]: {
           schema: j2s(
             customApiResponseSchema(
               Joi.object({
@@ -83,7 +83,7 @@ export const swCreatePurchase: OpenAPIV3.OperationObject = {
     [HttpStatus.BAD_REQUEST]: {
       description: 'Bad Request. Validation Error.',
       content: {
-        [EContentType.JSON]: {
+        [EContentType.Json]: {
           schema: j2s(customApiErrorResponseSchema()).swagger,
         },
       },
@@ -91,7 +91,7 @@ export const swCreatePurchase: OpenAPIV3.OperationObject = {
     [HttpStatus.INTERNAL_SERVER_ERROR]: {
       description: 'Internal Server Error',
       content: {
-        [EContentType.JSON]: {
+        [EContentType.Json]: {
           schema: j2s(customApiErrorResponseSchema()).swagger,
         },
       },

@@ -1,9 +1,9 @@
 import express from 'express'
-import { restaurantRouter } from '~/src/api/delivery/routes/restaurant.routes'
 import { purchaseRouter } from '~/src/api/delivery/routes/purchase.routes'
+import { restaurantRouter } from '~/src/api/delivery/routes/restaurant.routes'
+import { EApiVersion } from '../constants'
 
-const deliveryApiVersion = 'v1'
-const deliveryApiBaseRoute = `/api/delivery/${deliveryApiVersion}`
+const deliveryApiBaseRoute = `/api/delivery/${EApiVersion.Delivery}`
 
 const deliveryRoutes = express.Router()
 deliveryRoutes.use(deliveryApiBaseRoute, restaurantRouter)

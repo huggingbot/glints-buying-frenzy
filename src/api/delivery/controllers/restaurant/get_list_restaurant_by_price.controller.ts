@@ -125,7 +125,7 @@ export const swGetListRestaurantByPrice: OpenAPIV3.OperationObject = {
     [HttpStatus.OK]: {
       description: 'Successfully got restaurants',
       content: {
-        [EContentType.JSON]: {
+        [EContentType.Json]: {
           schema: j2s(
             customApiResponseSchema(
               Joi.object({
@@ -139,7 +139,7 @@ export const swGetListRestaurantByPrice: OpenAPIV3.OperationObject = {
     [HttpStatus.BAD_REQUEST]: {
       description: 'Bad Request. Validation Error.',
       content: {
-        [EContentType.JSON]: {
+        [EContentType.Json]: {
           schema: j2s(customApiErrorResponseSchema()).swagger,
         },
       },
@@ -147,7 +147,7 @@ export const swGetListRestaurantByPrice: OpenAPIV3.OperationObject = {
     [HttpStatus.INTERNAL_SERVER_ERROR]: {
       description: 'Internal Server Error',
       content: {
-        [EContentType.JSON]: {
+        [EContentType.Json]: {
           schema: j2s(customApiErrorResponseSchema()).swagger,
         },
       },
