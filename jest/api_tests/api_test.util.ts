@@ -3,8 +3,6 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { DELIVERY_API_URL } from '~/src/constants'
 import { MockCookie } from './mock_cookie'
 
-export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
-
 export const createMockCookie = (): MockCookie => {
   return new MockCookie()
 }
