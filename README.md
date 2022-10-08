@@ -65,6 +65,14 @@ yarn test
 yarn test:int
 ```
 
+### API Testing with Coverage
+
+```
+yarn test:api
+```
+
+- Server should be running before running API testing
+
 ### API Documentations
 
 ```

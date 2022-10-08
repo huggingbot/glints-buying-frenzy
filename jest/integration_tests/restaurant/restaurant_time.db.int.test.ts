@@ -1,9 +1,9 @@
 import { ILogContext } from '~/src/core/types'
 import { database } from '~/src/db_scripts'
-import { ERestaurantPreset, RestaurantSeeder } from '~/src/jest/seeders/restaurant.seeder'
-import { ERestaurantTimePreset, RestaurantTimeSeeder } from '~/src/jest/seeders/restaurant_time.seeder'
+import { ERestaurantPreset, RestaurantSeeder } from '../../seeders/restaurant.seeder'
+import { ERestaurantTimePreset, RestaurantTimeSeeder } from '../../seeders/restaurant_time.seeder'
 import { RestaurantTimeDb } from '~/src/modules/restaurant/restaurant_time.db'
-import { clearAll } from '../../utils'
+import { clearAll, randomInt } from '../../utils'
 
 describe('Restaurant Time DB Integration Test', () => {
   const logContext: ILogContext = {
@@ -61,7 +61,10 @@ describe('Restaurant Time DB Integration Test', () => {
     describe('findRestaurantsByTime', () => {
       it('Should retrieve all restaurants opening at a certain time', async () => {
         try {
-          const restaurantTimes = await restaurantTimeDb.findRestaurantsByTime(dayOfWeek, closingHour - openingHour)
+          const restaurantTimes = await restaurantTimeDb.findRestaurantsByTime(
+            dayOfWeek,
+            randomInt(openingHour, closingHour),
+          )
           expect(restaurantTimes).toBeDefined()
           expect(restaurantTimes.length).toEqual(restaurantTimeCount)
 
@@ -69,6 +72,8 @@ describe('Restaurant Time DB Integration Test', () => {
             expect(restaurantTime).toBeDefined()
             expect(restaurantTime.restaurantTimeId).toBeDefined()
             expect(restaurantTime.restaurantId).toBeDefined()
+            expect(restaurantTime.restaurantIdRestaurantModel).toBeDefined()
+            expect(restaurantTime.restaurantIdRestaurantModel.restaurantName).toBeDefined()
             expect(restaurantTime.dayOfWeek).toBeDefined()
             expect(restaurantTime.openingHour).toBeDefined()
             expect(restaurantTime.closingHour).toBeDefined()

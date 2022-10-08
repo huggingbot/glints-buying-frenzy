@@ -1,4 +1,4 @@
-import { database } from '../db_scripts'
+import { database } from '../src/db_scripts'
 
 export const clearAll = async (tablesToDelete?: string[]): Promise<void> => {
   const db = database.getQueryInterface()
@@ -13,4 +13,9 @@ export const clearAll = async (tablesToDelete?: string[]): Promise<void> => {
   for (const table of tables) {
     await db.bulkDelete(table, {})
   }
+}
+
+export const randomInt = (min: number, max: number): number => {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }

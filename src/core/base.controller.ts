@@ -93,7 +93,7 @@ abstract class BaseController<ResBody> implements IController {
     const msg = isCustomErr || isValidationErr ? rawError.message : 'Something unexpected went wrong'
 
     return {
-      resultCode: isValidationErr ? -400 : resultCode,
+      resultCode: isValidationErr ? genericApiResultCode.failure : resultCode,
       error: {
         errorId,
         errorCode: isCustomErr ? rawError.code : genericApiResultCode.failure,

@@ -22,6 +22,7 @@
     "noImplicitThis": false,
     "strictNullChecks": false
   },
-  "include": ["src/**/*"],
+  "files": ["./node_modules/jest-extended/types/index.d.ts"],
+  "include": ["src/**/*", "jest/**/*"],
   "exclude": ["node_modules", "dist", "bootstrap.js"]
 }
