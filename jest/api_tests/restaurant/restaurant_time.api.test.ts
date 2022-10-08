@@ -5,8 +5,8 @@ import { database } from '~/src/db_scripts'
 import { IRestaurantTime } from '~/src/modules/restaurant/restaurant.types'
 import { ERestaurantPreset, RestaurantSeeder } from '../../seeders/restaurant.seeder'
 import { ERestaurantTimePreset, RestaurantTimeSeeder } from '../../seeders/restaurant_time.seeder'
-import { clearAll, randomInt } from '../../utils'
-import { createApiClient, createMockCookie } from '../api_test.utils'
+import { clearAll, randomInt } from '../../util'
+import { createApiClient, createMockCookie } from '../api_test.util'
 import { MockCookie } from '../mock-cookie'
 
 const endpointURL = `${DELIVERY_API_URL}/restaurants/by-time`

@@ -1,9 +1,9 @@
 import { ILogContext } from '~/src/core/types'
 import { database } from '~/src/db_scripts'
+import { RestaurantTimeDb } from '~/src/modules/restaurant/restaurant_time.db'
 import { ERestaurantPreset, RestaurantSeeder } from '../../seeders/restaurant.seeder'
 import { ERestaurantTimePreset, RestaurantTimeSeeder } from '../../seeders/restaurant_time.seeder'
-import { RestaurantTimeDb } from '~/src/modules/restaurant/restaurant_time.db'
-import { clearAll, randomInt } from '../../utils'
+import { clearAll, randomInt } from '../../util'
 
 describe('Restaurant Time DB Integration Test', () => {
   const logContext: ILogContext = {

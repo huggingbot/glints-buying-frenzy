@@ -3,7 +3,7 @@ import { database } from '~/src/db_scripts'
 import { RestaurantTimeService } from '~/src/modules/restaurant/restaurant_time.service'
 import { ERestaurantPreset, RestaurantSeeder } from '../../seeders/restaurant.seeder'
 import { ERestaurantTimePreset, RestaurantTimeSeeder } from '../../seeders/restaurant_time.seeder'
-import { clearAll, randomInt } from '../../utils'
+import { clearAll, randomInt } from '../../util'
 
 describe('Restaurant Time Service Integration Test', () => {
   const logContext: ILogContext = {
