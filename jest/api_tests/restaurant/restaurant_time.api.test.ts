@@ -7,7 +7,7 @@ import { ERestaurantPreset, RestaurantSeeder } from '../../seeders/restaurant.se
 import { ERestaurantTimePreset, RestaurantTimeSeeder } from '../../seeders/restaurant_time.seeder'
 import { clearAll, randomInt } from '../../util'
 import { createApiClient, createMockCookie } from '../api_test.util'
-import { MockCookie } from '../mock-cookie'
+import { MockCookie } from '../mock_cookie'
 
 const endpointURL = `${DELIVERY_API_URL}/restaurants/by-time`
 
