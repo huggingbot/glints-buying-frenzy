@@ -81,4 +81,4 @@ http://localhost:3010/api-docs/
 
 ### ERD
 
-![ERD](./public/erd.png)
+![ERD](./public/erd1.png)
