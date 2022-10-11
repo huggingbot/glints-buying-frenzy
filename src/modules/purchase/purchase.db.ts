@@ -6,7 +6,7 @@ import {
   PurchaseHistoryModelStatic,
   purchaseHistoryModelStatic,
 } from '~/src/models/PurchaseHistoryModel'
-import { IRestaurantMenuModelAttrs } from '~/src/models/RestaurantMenuModel'
+import { IMenuModelAttrs } from '~/src/models/MenuModel'
 
 export class PurchaseDb extends BaseDb<PurchaseHistoryModelStatic, IPurchaseHistoryModelAttrs> {
   public constructor(logContext: ILogContext) {
@@ -15,21 +15,20 @@ export class PurchaseDb extends BaseDb<PurchaseHistoryModelStatic, IPurchaseHist
 
   public async purchaseDish(
     userId: number,
-    restaurantId: number,
     menuId: number,
     transactionAmount: number,
     transactionDate: Date,
   ): Promise<IPurchaseHistoryModelAttrs[]> {
-    const restaurantMenuModelStatic = purchaseHistoryModelStatic.assoc.restaurantMenuIdRestaurantMenuModel()
+    const menuModelStatic = purchaseHistoryModelStatic.assoc.menuIdMenuModel()
 
     const results = await database.transaction(async (transaction) => {
-      const model = await restaurantMenuModelStatic.findOne({ where: { restaurantId, menuId } })
-      const restaurantMenu = model?.toJSON() as IRestaurantMenuModelAttrs | null
-      if (!restaurantMenu) throw new Error('Failed to create purchase history record')
+      const model = await menuModelStatic.findOne({ where: { menuId } })
+      const menu = model?.toJSON() as IMenuModelAttrs | null
+      if (!menu) throw new Error('Failed to create purchase history record')
 
       const purchaseHistory = {
         userId,
-        restaurantMenuId: restaurantMenu.restaurantMenuId,
+        menuId: menu.menuId,
         transactionAmount,
         transactionDate,
       } as IPurchaseHistoryModelAttrs

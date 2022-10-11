@@ -15,19 +15,12 @@ export class PurchaseService extends BaseService {
 
   public async purchaseDish(
     userId: number,
-    restaurantId: number,
     menuId: number,
     transactionAmount: number,
     transactionDate: Date,
   ): Promise<IPurchase[]> {
     try {
-      const result = await this.purchaseDb.purchaseDish(
-        userId,
-        restaurantId,
-        menuId,
-        transactionAmount,
-        transactionDate,
-      )
+      const result = await this.purchaseDb.purchaseDish(userId, menuId, transactionAmount, transactionDate)
       return result.map(({ purchaseHistoryId }) => ({ purchaseHistoryId }))
     } catch (err) {
       throw new CustomError(this.name)

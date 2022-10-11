@@ -7,20 +7,13 @@ import {
   purchaseHistoryModelStatic,
   PurchaseHistoryModelCreationAttrs,
 } from './PurchaseHistoryModel'
-import {
-  IRestaurantMenuModelAttrs,
-  restaurantMenuModelStatic,
-  RestaurantMenuModelCreationAttrs,
-} from './RestaurantMenuModel'
+import { IMenuModelAttrs, menuModelStatic, MenuModelCreationAttrs } from './MenuModel'
 const modelName = 'UserModel'
 const tableName = 'user'
 export type UserModelCreationAttrs = Omit<
   Optional<IUserModelAttrs, 'createdAt' | 'updatedAt'>,
-  'userIdPurchaseHistoryModels' | 'userIdRestaurantMenuModels'
-> & {
-  userIdPurchaseHistoryModels?: PurchaseHistoryModelCreationAttrs[]
-  userIdRestaurantMenuModels?: RestaurantMenuModelCreationAttrs[]
-}
+  'userIdPurchaseHistoryModels' | 'userIdMenuModels'
+> & { userIdPurchaseHistoryModels?: PurchaseHistoryModelCreationAttrs[]; userIdMenuModels?: MenuModelCreationAttrs[] }
 export interface IUserModelAttrs {
   readonly userId: number
   name: string
@@ -28,7 +21,7 @@ export interface IUserModelAttrs {
   createdAt: Date
   updatedAt: Date
   userIdPurchaseHistoryModels?: IPurchaseHistoryModelAttrs[]
-  userIdRestaurantMenuModels?: IRestaurantMenuModelAttrs[]
+  userIdMenuModels?: IMenuModelAttrs[]
 }
 export interface IUserModel extends Model, Partial<IUserModelAttrs> {}
 export const userModelStatic = database.define(
@@ -75,15 +68,15 @@ type UserModelAttrs = {
 }
 type UserModelAssoc = {
   userIdPurchaseHistoryModels: () => typeof purchaseHistoryModelStatic
-  userIdRestaurantMenuModels: () => typeof restaurantMenuModelStatic
+  userIdMenuModels: () => typeof menuModelStatic
 }
 type UserModelAlias = {
   userIdPurchaseHistoryModels: 'userIdPurchaseHistoryModels'
-  userIdRestaurantMenuModels: 'userIdRestaurantMenuModels'
+  userIdMenuModels: 'userIdMenuModels'
 }
 userModelStatic.assoc = {
   userIdPurchaseHistoryModels: (): typeof purchaseHistoryModelStatic => purchaseHistoryModelStatic,
-  userIdRestaurantMenuModels: (): typeof restaurantMenuModelStatic => restaurantMenuModelStatic,
+  userIdMenuModels: (): typeof menuModelStatic => menuModelStatic,
 }
 userModelStatic.attrs = {
   userId: 'userId',
@@ -94,7 +87,7 @@ userModelStatic.attrs = {
 }
 userModelStatic.alias = {
   userIdPurchaseHistoryModels: 'userIdPurchaseHistoryModels',
-  userIdRestaurantMenuModels: 'userIdRestaurantMenuModels',
+  userIdMenuModels: 'userIdMenuModels',
 }
 export type UserModelStatic = StaticModel & {
   new (values?: object, options?: BuildOptions): IUserModel
@@ -104,10 +97,10 @@ export type UserModelStatic = StaticModel & {
 }
 export const userModelInit = (): void => {
   userModelStatic.hasMany(purchaseHistoryModelStatic, { foreignKey: 'userId', as: 'userIdPurchaseHistoryModels' })
-  userModelStatic.belongsToMany(restaurantMenuModelStatic, {
+  userModelStatic.belongsToMany(menuModelStatic, {
     foreignKey: 'userId',
-    as: 'userIdRestaurantMenuModels',
+    as: 'userIdMenuModels',
     through: purchaseHistoryModelStatic,
-    otherKey: restaurantMenuModelStatic.primaryKeyAttribute,
+    otherKey: menuModelStatic.primaryKeyAttribute,
   })
 }

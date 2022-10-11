@@ -11,12 +11,12 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      restaurantMenuId: {
+      menuId: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
         references: {
-          model: 'restaurant_menu',
-          key: 'restaurantMenuId',
+          model: 'menu',
+          key: 'menuId',
         },
       },
       userId: {

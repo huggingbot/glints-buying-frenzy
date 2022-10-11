@@ -35,59 +35,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
-var sequelize_1 = require("sequelize");
-var TABLE_NAME = 'purchase_history';
+var INDEX_NAME = 'menu_price';
+var TABLE_NAME = 'menu';
 module.exports = {
     up: function (queryInterface) { return __awaiter(void 0, void 0, void 0, function () {
+        var index;
         return __generator(this, function (_a) {
-            return [2 /*return*/, queryInterface.createTable(TABLE_NAME, {
-                    purchaseHistoryId: {
-                        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
-                        primaryKey: true,
-                        autoIncrement: true,
-                        allowNull: false
-                    },
-                    restaurantMenuId: {
-                        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
-                        allowNull: false,
-                        references: {
-                            model: 'restaurant_menu',
-                            key: 'restaurantMenuId'
-                        }
-                    },
-                    userId: {
-                        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
-                        allowNull: false,
-                        references: {
-                            model: 'user',
-                            key: 'userId'
-                        }
-                    },
-                    transactionAmount: {
-                        type: sequelize_1.DataTypes.FLOAT,
-                        allowNull: false
-                    },
-                    transactionDate: {
-                        type: sequelize_1.DataTypes.DATE,
-                        allowNull: false
-                    },
-                    createdAt: {
-                        type: sequelize_1.DataTypes.DATE,
-                        allowNull: false,
-                        defaultValue: (0, sequelize_1.fn)('NOW')
-                    },
-                    updatedAt: {
-                        type: sequelize_1.DataTypes.DATE,
-                        allowNull: false,
-                        defaultValue: (0, sequelize_1.fn)('NOW')
-                    }
-                })];
+            index = {
+                attributes: ['price'],
+                options: {
+                    unique: false,
+                    name: INDEX_NAME
+                }
+            };
+            return [2 /*return*/, queryInterface.addIndex(TABLE_NAME, index.attributes, index.options)];
         });
     }); },
     down: function (queryInterface) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            return [2 /*return*/, queryInterface.dropTable(TABLE_NAME)];
+            return [2 /*return*/, queryInterface.removeIndex(TABLE_NAME, INDEX_NAME)];
         });
     }); }
 };

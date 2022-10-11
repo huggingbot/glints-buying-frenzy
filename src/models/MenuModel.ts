@@ -2,28 +2,21 @@
 import { DataTypes, Model, BuildOptions, fn } from 'sequelize'
 import { Optional } from '~/src/core/types'
 import { database, StaticModel } from '~/src/db_scripts'
-import {
-  IRestaurantMenuModelAttrs,
-  restaurantMenuModelStatic,
-  RestaurantMenuModelCreationAttrs,
-} from './RestaurantMenuModel'
 import { IRestaurantModelAttrs, restaurantModelStatic, RestaurantModelCreationAttrs } from './RestaurantModel'
 const modelName = 'MenuModel'
 const tableName = 'menu'
 export type MenuModelCreationAttrs = Omit<
   Optional<IMenuModelAttrs, 'createdAt' | 'updatedAt'>,
-  'menuIdRestaurantMenuModels' | 'menuIdRestaurantModels'
-> & {
-  menuIdRestaurantMenuModels?: RestaurantMenuModelCreationAttrs[]
-  menuIdRestaurantModels?: RestaurantModelCreationAttrs[]
-}
+  'restaurantIdRestaurantModel'
+> & { restaurantIdRestaurantModel?: RestaurantModelCreationAttrs }
 export interface IMenuModelAttrs {
   readonly menuId: number
+  restaurantId: number
   dishName: string
+  price: number
   createdAt: Date
   updatedAt: Date
-  menuIdRestaurantMenuModels?: IRestaurantMenuModelAttrs[]
-  menuIdRestaurantModels?: IRestaurantModelAttrs[]
+  restaurantIdRestaurantModel?: IRestaurantModelAttrs
 }
 export interface IMenuModel extends Model, Partial<IMenuModelAttrs> {}
 export const menuModelStatic = database.define(
@@ -36,9 +29,20 @@ export const menuModelStatic = database.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    restaurantId: {
+      field: 'restaurantId',
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: { model: 'restaurant', key: 'restaurantId' },
+    },
     dishName: {
       field: 'dishName',
       type: DataTypes.STRING(512),
+      allowNull: false,
+    },
+    price: {
+      field: 'price',
+      type: DataTypes.FLOAT.UNSIGNED,
       allowNull: false,
     },
     createdAt: {
@@ -56,24 +60,26 @@ export const menuModelStatic = database.define(
   },
   { tableName },
 ) as MenuModelStatic
-type MenuModelAttrs = { menuId: 'menuId'; dishName: 'dishName'; createdAt: 'createdAt'; updatedAt: 'updatedAt' }
-type MenuModelAssoc = {
-  menuIdRestaurantMenuModels: () => typeof restaurantMenuModelStatic
-  menuIdRestaurantModels: () => typeof restaurantModelStatic
+type MenuModelAttrs = {
+  menuId: 'menuId'
+  restaurantId: 'restaurantId'
+  dishName: 'dishName'
+  price: 'price'
+  createdAt: 'createdAt'
+  updatedAt: 'updatedAt'
 }
-type MenuModelAlias = {
-  menuIdRestaurantMenuModels: 'menuIdRestaurantMenuModels'
-  menuIdRestaurantModels: 'menuIdRestaurantModels'
+type MenuModelAssoc = { restaurantIdRestaurantModel: () => typeof restaurantModelStatic }
+type MenuModelAlias = { restaurantIdRestaurantModel: 'restaurantIdRestaurantModel' }
+menuModelStatic.assoc = { restaurantIdRestaurantModel: (): typeof restaurantModelStatic => restaurantModelStatic }
+menuModelStatic.attrs = {
+  menuId: 'menuId',
+  restaurantId: 'restaurantId',
+  dishName: 'dishName',
+  price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
 }
-menuModelStatic.assoc = {
-  menuIdRestaurantMenuModels: (): typeof restaurantMenuModelStatic => restaurantMenuModelStatic,
-  menuIdRestaurantModels: (): typeof restaurantModelStatic => restaurantModelStatic,
-}
-menuModelStatic.attrs = { menuId: 'menuId', dishName: 'dishName', createdAt: 'createdAt', updatedAt: 'updatedAt' }
-menuModelStatic.alias = {
-  menuIdRestaurantMenuModels: 'menuIdRestaurantMenuModels',
-  menuIdRestaurantModels: 'menuIdRestaurantModels',
-}
+menuModelStatic.alias = { restaurantIdRestaurantModel: 'restaurantIdRestaurantModel' }
 export type MenuModelStatic = StaticModel & {
   new (values?: object, options?: BuildOptions): IMenuModel
   attrs: MenuModelAttrs
@@ -81,11 +87,5 @@ export type MenuModelStatic = StaticModel & {
   alias: MenuModelAlias
 }
 export const menuModelInit = (): void => {
-  menuModelStatic.hasMany(restaurantMenuModelStatic, { foreignKey: 'menuId', as: 'menuIdRestaurantMenuModels' })
-  menuModelStatic.belongsToMany(restaurantModelStatic, {
-    foreignKey: 'menuId',
-    as: 'menuIdRestaurantModels',
-    through: restaurantMenuModelStatic,
-    otherKey: restaurantModelStatic.primaryKeyAttribute,
-  })
+  menuModelStatic.belongsTo(restaurantModelStatic, { foreignKey: 'restaurantId', as: 'restaurantIdRestaurantModel' })
 }

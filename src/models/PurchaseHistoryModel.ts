@@ -2,27 +2,23 @@
 import { DataTypes, Model, BuildOptions, fn } from 'sequelize'
 import { Optional } from '~/src/core/types'
 import { database, StaticModel } from '~/src/db_scripts'
-import {
-  IRestaurantMenuModelAttrs,
-  restaurantMenuModelStatic,
-  RestaurantMenuModelCreationAttrs,
-} from './RestaurantMenuModel'
+import { IMenuModelAttrs, menuModelStatic, MenuModelCreationAttrs } from './MenuModel'
 import { IUserModelAttrs, userModelStatic, UserModelCreationAttrs } from './UserModel'
 const modelName = 'PurchaseHistoryModel'
 const tableName = 'purchase_history'
 export type PurchaseHistoryModelCreationAttrs = Omit<
   Optional<IPurchaseHistoryModelAttrs, 'createdAt' | 'updatedAt'>,
-  'restaurantMenuIdRestaurantMenuModel' | 'userIdUserModel'
-> & { restaurantMenuIdRestaurantMenuModel?: RestaurantMenuModelCreationAttrs; userIdUserModel?: UserModelCreationAttrs }
+  'menuIdMenuModel' | 'userIdUserModel'
+> & { menuIdMenuModel?: MenuModelCreationAttrs; userIdUserModel?: UserModelCreationAttrs }
 export interface IPurchaseHistoryModelAttrs {
   readonly purchaseHistoryId: number
-  restaurantMenuId: number
+  menuId: number
   userId: number
   transactionAmount: number
   transactionDate: Date
   createdAt: Date
   updatedAt: Date
-  restaurantMenuIdRestaurantMenuModel?: IRestaurantMenuModelAttrs
+  menuIdMenuModel?: IMenuModelAttrs
   userIdUserModel?: IUserModelAttrs
 }
 export interface IPurchaseHistoryModel extends Model, Partial<IPurchaseHistoryModelAttrs> {}
@@ -36,11 +32,11 @@ export const purchaseHistoryModelStatic = database.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    restaurantMenuId: {
-      field: 'restaurantMenuId',
+    menuId: {
+      field: 'menuId',
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      references: { model: 'restaurant_menu', key: 'restaurantMenuId' },
+      references: { model: 'menu', key: 'menuId' },
     },
     userId: {
       field: 'userId',
@@ -75,7 +71,7 @@ export const purchaseHistoryModelStatic = database.define(
 ) as PurchaseHistoryModelStatic
 type PurchaseHistoryModelAttrs = {
   purchaseHistoryId: 'purchaseHistoryId'
-  restaurantMenuId: 'restaurantMenuId'
+  menuId: 'menuId'
   userId: 'userId'
   transactionAmount: 'transactionAmount'
   transactionDate: 'transactionDate'
@@ -83,30 +79,24 @@ type PurchaseHistoryModelAttrs = {
   updatedAt: 'updatedAt'
 }
 type PurchaseHistoryModelAssoc = {
-  restaurantMenuIdRestaurantMenuModel: () => typeof restaurantMenuModelStatic
+  menuIdMenuModel: () => typeof menuModelStatic
   userIdUserModel: () => typeof userModelStatic
 }
-type PurchaseHistoryModelAlias = {
-  restaurantMenuIdRestaurantMenuModel: 'restaurantMenuIdRestaurantMenuModel'
-  userIdUserModel: 'userIdUserModel'
-}
+type PurchaseHistoryModelAlias = { menuIdMenuModel: 'menuIdMenuModel'; userIdUserModel: 'userIdUserModel' }
 purchaseHistoryModelStatic.assoc = {
-  restaurantMenuIdRestaurantMenuModel: (): typeof restaurantMenuModelStatic => restaurantMenuModelStatic,
+  menuIdMenuModel: (): typeof menuModelStatic => menuModelStatic,
   userIdUserModel: (): typeof userModelStatic => userModelStatic,
 }
 purchaseHistoryModelStatic.attrs = {
   purchaseHistoryId: 'purchaseHistoryId',
-  restaurantMenuId: 'restaurantMenuId',
+  menuId: 'menuId',
   userId: 'userId',
   transactionAmount: 'transactionAmount',
   transactionDate: 'transactionDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 }
-purchaseHistoryModelStatic.alias = {
-  restaurantMenuIdRestaurantMenuModel: 'restaurantMenuIdRestaurantMenuModel',
-  userIdUserModel: 'userIdUserModel',
-}
+purchaseHistoryModelStatic.alias = { menuIdMenuModel: 'menuIdMenuModel', userIdUserModel: 'userIdUserModel' }
 export type PurchaseHistoryModelStatic = StaticModel & {
   new (values?: object, options?: BuildOptions): IPurchaseHistoryModel
   attrs: PurchaseHistoryModelAttrs
@@ -114,9 +104,6 @@ export type PurchaseHistoryModelStatic = StaticModel & {
   alias: PurchaseHistoryModelAlias
 }
 export const purchaseHistoryModelInit = (): void => {
-  purchaseHistoryModelStatic.belongsTo(restaurantMenuModelStatic, {
-    foreignKey: 'restaurantMenuId',
-    as: 'restaurantMenuIdRestaurantMenuModel',
-  })
+  purchaseHistoryModelStatic.belongsTo(menuModelStatic, { foreignKey: 'menuId', as: 'menuIdMenuModel' })
   purchaseHistoryModelStatic.belongsTo(userModelStatic, { foreignKey: 'userId', as: 'userIdUserModel' })
 }

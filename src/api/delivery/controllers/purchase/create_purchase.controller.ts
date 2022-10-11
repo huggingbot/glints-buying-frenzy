@@ -22,11 +22,10 @@ export class CreatePurchase extends CustomController<IPurchase[]> {
   protected async doRequest(req: Request<unknown, unknown, IPurchaseRequestBody>): Promise<IApiResult> {
     try {
       await validationSchema.validateAsync(req.body)
-      const { userId, restaurantId, menuId, transactionAmount, transactionDate } = req.body
+      const { userId, menuId, transactionAmount, transactionDate } = req.body
 
       const result = await this.purchaseService.purchaseDish(
         Number(userId),
-        Number(restaurantId),
         Number(menuId),
         Number(transactionAmount),
         transactionDate,

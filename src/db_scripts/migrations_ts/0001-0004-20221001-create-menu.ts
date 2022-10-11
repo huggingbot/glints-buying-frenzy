@@ -11,8 +11,20 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
+      restaurantId: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
+        references: {
+          model: 'restaurant',
+          key: 'restaurantId',
+        },
+      },
       dishName: {
         type: DataTypes.STRING(512),
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.FLOAT.UNSIGNED,
         allowNull: false,
       },
       createdAt: {

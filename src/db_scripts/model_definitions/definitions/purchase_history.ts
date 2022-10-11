@@ -11,12 +11,12 @@ export const definition: ICreatorDefinition = {
       autoIncrement: true,
       allowNull: false,
     },
-    restaurantMenuId: {
+    menuId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       references: {
-        model: 'restaurant_menu',
-        key: 'restaurantMenuId',
+        model: 'menu',
+        key: 'menuId',
       },
     },
     userId: {
@@ -50,8 +50,8 @@ export const definition: ICreatorDefinition = {
   associations: [
     {
       assocType: AssocType.BelongsTo,
-      assocModelName: 'RestaurantMenu',
-      foreignKey: 'restaurantMenuId',
+      assocModelName: 'menu',
+      foreignKey: 'menuId',
     },
     {
       assocType: AssocType.BelongsTo,

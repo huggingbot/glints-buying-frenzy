@@ -7,20 +7,14 @@ import {
   restaurantTimeModelStatic,
   RestaurantTimeModelCreationAttrs,
 } from './RestaurantTimeModel'
-import {
-  IRestaurantMenuModelAttrs,
-  restaurantMenuModelStatic,
-  RestaurantMenuModelCreationAttrs,
-} from './RestaurantMenuModel'
 import { IMenuModelAttrs, menuModelStatic, MenuModelCreationAttrs } from './MenuModel'
 const modelName = 'RestaurantModel'
 const tableName = 'restaurant'
 export type RestaurantModelCreationAttrs = Omit<
   Optional<IRestaurantModelAttrs, 'createdAt' | 'updatedAt'>,
-  'restaurantIdRestaurantTimeModels' | 'restaurantIdRestaurantMenuModels' | 'restaurantIdMenuModels'
+  'restaurantIdRestaurantTimeModels' | 'restaurantIdMenuModels'
 > & {
   restaurantIdRestaurantTimeModels?: RestaurantTimeModelCreationAttrs[]
-  restaurantIdRestaurantMenuModels?: RestaurantMenuModelCreationAttrs[]
   restaurantIdMenuModels?: MenuModelCreationAttrs[]
 }
 export interface IRestaurantModelAttrs {
@@ -30,7 +24,6 @@ export interface IRestaurantModelAttrs {
   createdAt: Date
   updatedAt: Date
   restaurantIdRestaurantTimeModels?: IRestaurantTimeModelAttrs[]
-  restaurantIdRestaurantMenuModels?: IRestaurantMenuModelAttrs[]
   restaurantIdMenuModels?: IMenuModelAttrs[]
 }
 export interface IRestaurantModel extends Model, Partial<IRestaurantModelAttrs> {}
@@ -78,17 +71,14 @@ type RestaurantModelAttrs = {
 }
 type RestaurantModelAssoc = {
   restaurantIdRestaurantTimeModels: () => typeof restaurantTimeModelStatic
-  restaurantIdRestaurantMenuModels: () => typeof restaurantMenuModelStatic
   restaurantIdMenuModels: () => typeof menuModelStatic
 }
 type RestaurantModelAlias = {
   restaurantIdRestaurantTimeModels: 'restaurantIdRestaurantTimeModels'
-  restaurantIdRestaurantMenuModels: 'restaurantIdRestaurantMenuModels'
   restaurantIdMenuModels: 'restaurantIdMenuModels'
 }
 restaurantModelStatic.assoc = {
   restaurantIdRestaurantTimeModels: (): typeof restaurantTimeModelStatic => restaurantTimeModelStatic,
-  restaurantIdRestaurantMenuModels: (): typeof restaurantMenuModelStatic => restaurantMenuModelStatic,
   restaurantIdMenuModels: (): typeof menuModelStatic => menuModelStatic,
 }
 restaurantModelStatic.attrs = {
@@ -100,7 +90,6 @@ restaurantModelStatic.attrs = {
 }
 restaurantModelStatic.alias = {
   restaurantIdRestaurantTimeModels: 'restaurantIdRestaurantTimeModels',
-  restaurantIdRestaurantMenuModels: 'restaurantIdRestaurantMenuModels',
   restaurantIdMenuModels: 'restaurantIdMenuModels',
 }
 export type RestaurantModelStatic = StaticModel & {
@@ -114,14 +103,5 @@ export const restaurantModelInit = (): void => {
     foreignKey: 'restaurantId',
     as: 'restaurantIdRestaurantTimeModels',
   })
-  restaurantModelStatic.hasMany(restaurantMenuModelStatic, {
-    foreignKey: 'restaurantId',
-    as: 'restaurantIdRestaurantMenuModels',
-  })
-  restaurantModelStatic.belongsToMany(menuModelStatic, {
-    foreignKey: 'restaurantId',
-    as: 'restaurantIdMenuModels',
-    through: restaurantMenuModelStatic,
-    otherKey: menuModelStatic.primaryKeyAttribute,
-  })
+  restaurantModelStatic.hasMany(menuModelStatic, { foreignKey: 'restaurantId', as: 'restaurantIdMenuModels' })
 }

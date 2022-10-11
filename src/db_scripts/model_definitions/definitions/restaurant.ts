@@ -39,14 +39,8 @@ export const definition: ICreatorDefinition = {
     },
     {
       assocType: AssocType.HasMany,
-      assocModelName: 'RestaurantMenu',
+      assocModelName: 'menu',
       foreignKey: 'restaurantId',
-    },
-    {
-      assocType: AssocType.BelongsToMany,
-      assocModelName: 'Menu',
-      foreignKey: 'restaurantId',
-      through: 'RestaurantMenu',
     },
   ],
 }

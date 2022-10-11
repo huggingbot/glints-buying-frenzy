@@ -11,8 +11,20 @@ export const definition: ICreatorDefinition = {
       autoIncrement: true,
       allowNull: false,
     },
+    restaurantId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: {
+        model: 'restaurant',
+        key: 'restaurantId',
+      },
+    },
     dishName: {
       type: DataTypes.STRING(512),
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.FLOAT.UNSIGNED,
       allowNull: false,
     },
     createdAt: {
@@ -29,15 +41,9 @@ export const definition: ICreatorDefinition = {
   indexes: [],
   associations: [
     {
-      assocType: AssocType.HasMany,
-      assocModelName: 'RestaurantMenu',
-      foreignKey: 'menuId',
-    },
-    {
-      assocType: AssocType.BelongsToMany,
+      assocType: AssocType.BelongsTo,
       assocModelName: 'Restaurant',
-      foreignKey: 'menuId',
-      through: 'RestaurantMenu',
+      foreignKey: 'restaurantId',
     },
   ],
 }

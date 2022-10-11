@@ -48,8 +48,20 @@ module.exports = {
                         autoIncrement: true,
                         allowNull: false
                     },
+                    restaurantId: {
+                        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
+                        allowNull: false,
+                        references: {
+                            model: 'restaurant',
+                            key: 'restaurantId'
+                        }
+                    },
                     dishName: {
                         type: sequelize_1.DataTypes.STRING(512),
+                        allowNull: false
+                    },
+                    price: {
+                        type: sequelize_1.DataTypes.FLOAT.UNSIGNED,
                         allowNull: false
                     },
                     createdAt: {
