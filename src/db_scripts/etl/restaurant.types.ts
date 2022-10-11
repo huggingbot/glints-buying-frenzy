@@ -26,12 +26,7 @@ export interface IRestaurantTime {
 
 export interface IMenu {
   menuId: number
-  dishName: string
-}
-
-export interface IRestaurantMenu {
-  restaurantMenuId: number
   restaurantId: number
-  menuId: number
+  dishName: string
   price: number
 }

@@ -20,7 +20,7 @@ export interface IUser {
 
 export interface IPurchaseHistory {
   purchaseHistoryId: number
-  restaurantMenuId: number
+  menuId: number
   userId: number
   transactionAmount: number
   transactionDate: string

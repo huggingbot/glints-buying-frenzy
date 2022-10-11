@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { IMenu, IRestaurant, IRestaurantTime, IRestaurantMenu, IRestaurantRaw } from '../restaurant.types'
+import { IMenu, IRestaurant, IRestaurantRaw, IRestaurantTime } from '../restaurant.types'
 
 export const transformRestaurants = (data: Record<string, IRestaurantRaw>): Record<string, IRestaurant> => {
   return Object.entries(data).reduce((obj, [id, { restaurantName, cashBalance }]) => {
@@ -40,46 +40,26 @@ export const transformRestaurantTime = (data: Record<string, IRestaurantRaw>): R
   return restaurantTime
 }
 
-export const transformMenu = (data: IRestaurantRaw[]): Record<string, IMenu> => {
+export const transformMenu = (data: Record<string, IRestaurantRaw>): Record<string, IMenu> => {
   const dishes = new Set<string>()
   const menu: Record<string, IMenu> = {}
   let menuId = 1
 
-  data.forEach((restaurant) => {
-    restaurant.menu.forEach(({ dishName }) => {
+  Object.entries(data).forEach(([restaurantId, restaurant]) => {
+    restaurant.menu.forEach(({ dishName, price }) => {
       const dish = dishName.trim().toLowerCase()
 
       if (dishes.has(dish)) return
       dishes.add(dish)
 
-      menu[menuId] = { menuId, dishName: dish }
+      menu[menuId] = {
+        menuId,
+        restaurantId: Number(restaurantId),
+        dishName: dish,
+        price: Number(price),
+      }
       menuId++
     })
   })
   return menu
-}
-
-export const transformRestaurantMenu = (
-  restaurants: Record<string, IRestaurantRaw>,
-  menus: Record<string, IMenu>,
-): Record<string, IRestaurantMenu> => {
-  let restaurantMenuId = 1
-  const restaurantMenu: Record<string, IRestaurantMenu> = {}
-
-  Object.entries(restaurants).forEach(([restaurantId, restaurant]) => {
-    restaurant.menu.forEach(({ dishName, price }) => {
-      const menuItem = Object.values(menus).filter((m) => m.dishName === dishName.trim().toLowerCase())
-
-      if (menuItem.length) {
-        restaurantMenu[restaurantMenuId] = {
-          restaurantMenuId,
-          restaurantId: Number(restaurantId),
-          menuId: menuItem[0].menuId,
-          price,
-        }
-        restaurantMenuId += 1
-      }
-    })
-  })
-  return restaurantMenu
 }

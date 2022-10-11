@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { IMenu, IRestaurant, IRestaurantMenu } from '../restaurant.types'
+import { IMenu, IRestaurant } from '../restaurant.types'
 import { IPurchaseHistory, IUser, IUserRaw } from '../user.types'
 
 export const transformUser = (data: Record<string, IUserRaw>): Record<string, IUser> => {
@@ -12,7 +12,6 @@ export const transformPurchaseHistory = (
   users: Record<string, IUserRaw>,
   restaurants: Record<string, IRestaurant>,
   menus: Record<string, IMenu>,
-  restaurantMenus: Record<string, IRestaurantMenu>,
 ): Record<string, IPurchaseHistory> => {
   let purchaseHistoryId = 1
   const purchaseHistory: Record<string, IPurchaseHistory> = {}
@@ -22,23 +21,19 @@ export const transformPurchaseHistory = (
       const restaurantItem = Object.values(restaurants).filter(
         (r) => r.restaurantName === restaurantName.trim().toLowerCase(),
       )
-      const menuItem = Object.values(menus).filter((m) => m.dishName === dishName.trim().toLowerCase())
-
-      if (restaurantItem.length && menuItem.length) {
-        const restaurantMenuItem = Object.values(restaurantMenus).filter(
-          (rm) => rm.menuId === menuItem[0].menuId && rm.restaurantId === restaurantItem[0].restaurantId,
-        )
-
-        if (restaurantMenuItem.length) {
-          purchaseHistory[purchaseHistoryId] = {
-            purchaseHistoryId,
-            restaurantMenuId: restaurantMenuItem[0].restaurantMenuId,
-            userId: Number(userId),
-            transactionAmount,
-            transactionDate: moment(new Date(transactionDate)).format('YYYY-MM-DD HH:mm:ss'),
-          }
-          purchaseHistoryId += 1
+      const restaurantId = restaurantItem[0]?.restaurantId
+      const menuItem = Object.values(menus).filter(
+        (m) => m.restaurantId === restaurantId && m.dishName === dishName.trim().toLowerCase(),
+      )
+      if (menuItem.length) {
+        purchaseHistory[purchaseHistoryId] = {
+          purchaseHistoryId,
+          menuId: menuItem[0].menuId,
+          userId: Number(userId),
+          transactionAmount,
+          transactionDate: moment(new Date(transactionDate)).format('YYYY-MM-DD HH:mm:ss'),
         }
+        purchaseHistoryId += 1
       }
     })
   })

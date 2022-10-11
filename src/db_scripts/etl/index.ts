@@ -2,14 +2,9 @@ import fs from 'fs'
 import { join } from 'path'
 import restaurantJson from './input/restaurant_with_menu.json'
 import userJson from './input/users_with_purchase_history.json'
-import { IMenu, IRestaurant, IRestaurantMenu, IRestaurantRaw } from './restaurant.types'
+import { IMenu, IRestaurant, IRestaurantRaw } from './restaurant.types'
 import { IUserRaw } from './user.types'
-import {
-  transformMenu,
-  transformRestaurantTime,
-  transformRestaurantMenu,
-  transformRestaurants,
-} from './utils/restaurant.util'
+import { transformMenu, transformRestaurants, transformRestaurantTime } from './utils/restaurant.util'
 import { transformPurchaseHistory, transformUser } from './utils/user.util'
 
 const OUTPUT_PATH = join(__dirname, 'output')
@@ -38,26 +33,13 @@ const parseRestaurantTime = (data: Record<string, IRestaurantRaw>): ReturnType<t
   return transformed
 }
 
-const parseMenus = (data: IRestaurantRaw[]): ReturnType<typeof transformMenu> => {
+const parseMenus = (data: Record<string, IRestaurantRaw>): ReturnType<typeof transformMenu> => {
   console.log('Extracting and transforming menus')
   const transformed = transformMenu(data)
   const arr = Object.values(transformed).map((i) => i)
   const json = JSON.stringify(arr, null, 2)
   fs.writeFileSync(join(OUTPUT_PATH, 'menu.json'), json, 'utf-8')
   console.log('Completed menus')
-  return transformed
-}
-
-const parseRestaurantMenus = (
-  restaurants: Record<string, IRestaurantRaw>,
-  menus: Record<string, IMenu>,
-): ReturnType<typeof transformRestaurantMenu> => {
-  console.log('Extracting and transforming restaurant menus')
-  const transformed = transformRestaurantMenu(restaurants, menus)
-  const arr = Object.values(transformed).map((i) => i)
-  const json = JSON.stringify(arr, null, 2)
-  fs.writeFileSync(join(OUTPUT_PATH, 'restaurant_menu.json'), json, 'utf-8')
-  console.log('Completed restaurant menus')
   return transformed
 }
 
@@ -75,10 +57,9 @@ const parsePurchaseHistory = (
   users: Record<string, IUserRaw>,
   restaurants: Record<string, IRestaurant>,
   menus: Record<string, IMenu>,
-  restaurantMenus: Record<string, IRestaurantMenu>,
 ): ReturnType<typeof transformPurchaseHistory> => {
   console.log('Extracting and transforming purchase history')
-  const transformed = transformPurchaseHistory(users, restaurants, menus, restaurantMenus)
+  const transformed = transformPurchaseHistory(users, restaurants, menus)
   const arr = Object.values(transformed).map((i) => i)
   const json = JSON.stringify(arr, null, 2)
   fs.writeFileSync(join(OUTPUT_PATH, 'purchase_history.json'), json, 'utf-8')
@@ -95,10 +76,9 @@ const main = async (): Promise<void> => {
 
   const restaurants = parseRestaurants(restaurantDataObj)
   parseRestaurantTime(restaurantDataObj)
-  const menus = parseMenus(restaurantData)
-  const restaurantMenus = parseRestaurantMenus(restaurantDataObj, menus)
+  const menus = parseMenus(restaurantDataObj)
   parseUsers(userDataObj)
-  parsePurchaseHistory(userDataObj, restaurants, menus, restaurantMenus)
+  parsePurchaseHistory(userDataObj, restaurants, menus)
 }
 
 main().catch((error) => {
