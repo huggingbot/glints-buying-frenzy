@@ -47,7 +47,6 @@ export class CreatePurchase extends CustomController<IPurchase[]> {
 
 const validationSchema = Joi.object({
   userId: Joi.number().required().min(1),
-  restaurantId: Joi.number().required().min(1),
   menuId: Joi.number().required().min(1),
   transactionAmount: Joi.number().required(),
   transactionDate: Joi.date().required(),
