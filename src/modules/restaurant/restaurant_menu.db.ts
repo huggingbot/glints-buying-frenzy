@@ -32,7 +32,6 @@ export class RestaurantMenuDb extends BaseDb<RestaurantModelStatic, IRestaurantM
           WHERE
               MATCH (dishName) AGAINST (:searchTerm IN BOOLEAN MODE)) AS unionSearch
       ORDER BY score DESC
-
       `,
       {
         replacements: { searchTerm },

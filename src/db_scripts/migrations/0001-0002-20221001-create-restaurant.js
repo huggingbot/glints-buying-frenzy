@@ -54,7 +54,10 @@ module.exports = {
                     },
                     cashBalance: {
                         type: sequelize_1.DataTypes.FLOAT,
-                        allowNull: false
+                        allowNull: false,
+                        validate: {
+                            min: 0
+                        }
                     },
                     createdAt: {
                         type: sequelize_1.DataTypes.DATE,

@@ -43,6 +43,7 @@ export const userModelStatic = database.define(
       field: 'cashBalance',
       type: DataTypes.FLOAT,
       allowNull: false,
+      validate: { min: 0 },
     },
     createdAt: {
       field: 'createdAt',

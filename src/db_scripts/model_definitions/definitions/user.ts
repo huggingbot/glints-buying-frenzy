@@ -18,6 +18,9 @@ export const definition: ICreatorDefinition = {
     cashBalance: {
       type: DataTypes.FLOAT,
       allowNull: false,
+      validate: {
+        min: 0,
+      },
     },
     createdAt: {
       type: DataTypes.DATE,
