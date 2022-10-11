@@ -7,4 +7,6 @@ export enum EApiVersion {
 }
 
 export const BASE_URL = process.env.BASE_URL ?? 'http://localhost:3010'
-export const DELIVERY_API_URL = `${BASE_URL}/api/delivery/${EApiVersion.Delivery}`
+export const DELIVERY_API_URL = `${process.env.BASE_URL ?? 'http://localhost:3010'}/api/delivery/${
+  EApiVersion.Delivery
+}`
