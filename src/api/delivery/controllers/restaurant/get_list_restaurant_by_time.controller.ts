@@ -12,8 +12,7 @@ import { IRestaurantTime } from '~/src/modules/restaurant/restaurant.types'
 import { RestaurantTimeService } from '~/src/modules/restaurant/restaurant_time.service'
 
 interface IGetListRestaurantByTimeQuery {
-  dayOfWeek?: number
-  timeAsMinutes?: number
+  timestamp?: number
 }
 
 export class GetListRestaurantByTime extends CustomController<IRestaurantTime[]> {
@@ -29,9 +28,9 @@ export class GetListRestaurantByTime extends CustomController<IRestaurantTime[]>
   ): Promise<IApiResult> {
     try {
       await validationSchema.validateAsync(req.query)
-      const { dayOfWeek, timeAsMinutes } = req.query
+      const { timestamp } = req.query
 
-      const result = await this.restaurantTimeService.getRestaurantsByTime(Number(dayOfWeek), Number(timeAsMinutes))
+      const result = await this.restaurantTimeService.getRestaurantsByTime(Number(timestamp))
 
       return this.success(result, 'Successfully got restaurants')
     } catch (err) {
@@ -48,8 +47,7 @@ export class GetListRestaurantByTime extends CustomController<IRestaurantTime[]>
 }
 
 const validationSchema = Joi.object({
-  dayOfWeek: Joi.number().required().min(1).max(7),
-  timeAsMinutes: Joi.number().required().min(0).max(1439),
+  timestamp: Joi.number().required(),
 })
 
 export const swGetListRestaurantByTime: OpenAPIV3.OperationObject = {
@@ -58,25 +56,12 @@ export const swGetListRestaurantByTime: OpenAPIV3.OperationObject = {
   tags: ['restaurant'],
   parameters: [
     {
-      name: 'dayOfWeek',
+      name: 'timestamp',
       in: 'query',
-      description: 'Day of week',
+      description: 'Timestamp in milliseconds',
       required: true,
       schema: {
         type: 'number',
-        minimum: 1,
-        maximum: 7,
-      },
-    },
-    {
-      name: 'timeAsMinutes',
-      in: 'query',
-      description: 'Time expressed in minutes',
-      required: true,
-      schema: {
-        type: 'number',
-        minimum: 0,
-        maximum: 1439,
       },
     },
   ],

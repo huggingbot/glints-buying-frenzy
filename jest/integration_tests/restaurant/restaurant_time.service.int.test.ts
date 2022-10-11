@@ -1,9 +1,10 @@
+import moment from 'moment'
 import { ILogContext } from '~/src/core/types'
 import { database } from '~/src/db_scripts'
 import { RestaurantTimeService } from '~/src/modules/restaurant/restaurant_time.service'
 import { ERestaurantPreset, RestaurantSeeder } from '../../seeders/restaurant.seeder'
 import { ERestaurantTimePreset, RestaurantTimeSeeder } from '../../seeders/restaurant_time.seeder'
-import { clearAll, randomInt } from '../../util'
+import { clearAll } from '../../util'
 
 describe('Restaurant Time Service Integration Test', () => {
   const logContext: ILogContext = {
@@ -26,9 +27,10 @@ describe('Restaurant Time Service Integration Test', () => {
   })
 
   describe('read-only methods', () => {
-    const dayOfWeek = 3
+    const dayOfWeek = 7
     const openingHour = 100
     const closingHour = 1000
+    const timestamp = moment('Sat Jan 01 2022 08:00:00 GMT+0800 (Singapore Standard Time)').valueOf()
 
     const restaurantSeeder = new RestaurantSeeder()
     const restaurantTimeSeeder = new RestaurantTimeSeeder()
@@ -61,10 +63,7 @@ describe('Restaurant Time Service Integration Test', () => {
     describe('getRestaurantsByTime', () => {
       it('Should get all restaurants opening at a certain time', async () => {
         try {
-          const restaurantTimes = await restaurantTimeService.getRestaurantsByTime(
-            dayOfWeek,
-            randomInt(openingHour, closingHour),
-          )
+          const restaurantTimes = await restaurantTimeService.getRestaurantsByTime(timestamp)
           expect(restaurantTimes).toBeDefined()
           expect(restaurantTimes.length).toEqual(restaurantTimeCount)
 

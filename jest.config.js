@@ -13,6 +13,9 @@ module.exports = {
     '~/(.*)': '<rootDir>/$1',
   },
   moduleDirectories: ['<rootDir>/node_modules', '<rootDir>/src'],
+  transform: {
+    '^.+\\.[t|j]s$': 'ts-jest',
+  },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(m)?ts$',
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: ['db_scripts', 'swagger'],

@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios'
 import HttpStatus from 'http-status-codes'
+import moment from 'moment'
 import { DELIVERY_API_URL } from '~/src/constants'
 import { database } from '~/src/db_scripts'
 import { IRestaurantTime } from '~/src/modules/restaurant/restaurant.types'
@@ -29,9 +30,10 @@ describe('Restaurant Time API Test', () => {
   })
 
   describe(`GET ${endpointURL}`, () => {
-    const dayOfWeek = 3
+    const dayOfWeek = 7
     const openingHours = [100, 300]
     const closingHours = [800, 1000]
+    const timestamp = moment('Sat Jan 01 2022 08:00:00 GMT+0800 (Singapore Standard Time)').valueOf()
 
     const restaurantSeeder = new RestaurantSeeder()
     const restaurantTimeSeeder = new RestaurantTimeSeeder()
@@ -62,7 +64,7 @@ describe('Restaurant Time API Test', () => {
     })
 
     test(`should return ${HttpStatus.OK} with res body containing correct structure`, async () => {
-      const url = `${endpointURL}?dayOfWeek=${dayOfWeek}&timeAsMinutes=${randomInt(openingHours[1], closingHours[0])}`
+      const url = `${endpointURL}?timestamp=${timestamp}`
       const res = await apiClient.get(url, {
         headers: {
           Cookie: mockCookie.cookies,
@@ -84,16 +86,14 @@ describe('Restaurant Time API Test', () => {
     })
 
     test.each`
-      dayOfWeek | timeAsMinutes | errorReason
-      ${0}      | ${0}          | ${'"dayOfWeek" must be greater than or equal to 1'}
-      ${8}      | ${0}          | ${'"dayOfWeek" must be less than or equal to 7'}
-      ${1}      | ${-1}         | ${'"timeAsMinutes" must be greater than or equal to 0'}
-      ${1}      | ${1440}       | ${'"timeAsMinutes" must be less than or equal to 1439'}
+      timestamp       | errorReason
+      ${'randomTime'} | ${'"timestamp" must be a number'}
+      ${true}         | ${'"timestamp" must be a number'}
     `(
-      `should return ${HttpStatus.BAD_REQUEST}: $errorReason when dayOfWeek is $dayOfWeek and timeAsMinutes is $timeAsMinutes`,
-      async ({ dayOfWeek, timeAsMinutes, errorReason }) => {
+      `should return ${HttpStatus.BAD_REQUEST}: $errorReason when timestamp is $timestamp`,
+      async ({ timestamp, errorReason }) => {
         try {
-          const url = `${endpointURL}?dayOfWeek=${dayOfWeek}&timeAsMinutes=${timeAsMinutes}`
+          const url = `${endpointURL}?timestamp=${timestamp}`
           const res = await apiClient.get(url, {
             headers: {
               Cookie: mockCookie.cookies,
