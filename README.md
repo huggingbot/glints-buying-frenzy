@@ -16,6 +16,12 @@ This service supports the following API endpoints:
   ```
   git clone https://github.com/huggingbot/backend-buying-frenzy.git
   ```
+  
+- Change directory into the project
+
+  ```
+  cd backend-buying-frenzy
+  ```
 
 - Create `.env` file in root directory of repo then copy contents of `.env.example` to `.env`
 
